@@ -1,0 +1,6 @@
+## Research Questions and Usage Scenarios
+John is a economy student looking to understand the level of happiness of people around the world and factors affecting it. He wants to see what contribute to the happiness level to some of the happiest and unhappiest countries around the world, and also how the happiness levels and rankings change over time.
+
+In our dashboard, John can see a global map indicating the happiness level of each country/region around the world, the latest happiest and unhappiest countries, an aggregated statistics (mean or median) happiness level. John will also have the option to select which year the data is from, or display only the levels of select-few country/region's happiness. Additionally, John can also see how on average each factor contributes a person's happiness level.
+
+Hypothetically, John finds that the economy factor contributes mostly to the happiness level, which likely makes sense considering that ultimately economy is the most major tie with quality of life for people around the world. John can then perhaps probe further into the economic models of the happiest and unhappiest countries in the world and see how they differ.
