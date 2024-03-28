@@ -1,0 +1,15 @@
+name: 'world-happiness-tracker-env'
+channels:
+    - conda-forge
+    - defaults
+dependencies:
+    - python=3.12.2
+    - ipykernel=6.29.3
+    - altair-all=5.2.0
+    - dash=2.16.1
+    - dash-bootstrap-components=1.5.0
+    - plotly=5.19.0
+    - pandas=2.2.1
+    - pip=24.0
+    - pip:
+      - dash-vega-components==0.8.2
