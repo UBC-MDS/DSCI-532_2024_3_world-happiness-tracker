@@ -7,7 +7,7 @@ Exploring various methods to learn about happiness in the world is commonplace w
 
 The ability to visually interact with this dashboard enables students to see different regions and countries happiness scores, as well as the factors contributing to these specific scores, through a variety of filters. Students will also gain an understanding of how a country or region's happiness scores compare to global averages and how these scores have evolved over recent years  
 
-## Description of Data  
+## Section 2: Description of Data  
 For our visualization, we will use data spanning from 2015 to 2019, comprising approximately 156 rows (countries) for each year. This brings the total to 782 rows. The dataset includes various columns that indicate a country's happiness ranking and score, as well as the factors contributing to this score. The included columns are:
 
 1. Country: String values that will appear five times, once for each year. 
