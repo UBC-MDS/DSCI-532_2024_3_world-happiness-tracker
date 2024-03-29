@@ -1,5 +1,5 @@
 ## Section 1: Motivation and Purpose
-Our Role: Creation of Teaching Tools   
+Our Role: Developer of Teaching Tools   
 
 Target Audience: Educational Dashboard for Students  
 
