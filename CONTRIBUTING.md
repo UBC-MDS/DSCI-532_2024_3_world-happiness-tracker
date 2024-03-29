@@ -28,5 +28,4 @@ Participation in this project requires compliance with our [Contributor Code of 
 
 ### Attribution
 
-These contributing guidelines were inspired by the [Breast_Cancer_Predictor_Project]
-(https://github.com/ttimbers/breast_cancer_predictor).
+These contributing guidelines were adapted from the guidelines of [Breast_Cancer_Predictor_Project](https://github.com/ttimbers/breast_cancer_predictor/blob/master/CONTRIBUTING.md) and [dplyr](https://github.com/tidyverse/dplyr/blob/main/.github/CONTRIBUTING.md).
