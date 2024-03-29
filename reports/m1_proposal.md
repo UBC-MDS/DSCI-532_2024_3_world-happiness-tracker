@@ -1,0 +1,6 @@
+
+## Section 4: App sketch & brief description
+
+The World Happiness Tracker App allows users to explore the Happiness Score of different countries. At the top of the page, the dashboard presents some global key numbers to the user. These numbers aim to give a user some reference points for the interpretation of further information. Below the key numbers block, the app presents the center piece of the app which is the world map that encodes the happiness score for each country with the help of a color scale. The default of the world map is to show the happiness scores for all countries for the most recent year. As the user chooses specific countries as Country A and Country B, as well as a particular year, the map greys out all the countries not selected by the user and only highlights the colors of the selected countries. The block below the map consists of three parts that allow more insights into the happiness of the selected countries. The ranking displays the rank of each of the selected countries out of all the countries. The line plot visualizes the happiness over time of the two countries A and B over the years and highlights the year selected. Finally, the bar chart breaks down the happiness score into its components and shows how much individual components contributed to the overall score.
+
+![sketch](../img/sketch.png)
