@@ -1,5 +1,8 @@
+# Dashboard Proposal
+
 ## Section 1: Motivation and Purpose
-Our Role: Developer of Teaching Tools   
+
+Our Role: Developer of Teaching Tools
 
 Target Audience: Educational Dashboard for Students  
 
@@ -7,18 +10,19 @@ Exploring various methods to learn about happiness in the world is commonplace w
 
 The ability to visually interact with this dashboard enables students to see different countries' happiness scores, as well as the factors contributing to these specific scores, through a variety of filters. Students will also gain an understanding of how countries' happiness scores compare to the global average and how these scores have evolved over recent years.
 
-## Section 2: Description of Data  
+## Section 2: Description of Data
+
 For our visualization, we will use a dataset spanning from 2015 to 2019, comprising approximately 156 rows (countries) for each year. This brings the total to 782 rows. The dataset includes various columns that indicate a country's happiness ranking and score, as well as the factors contributing to this score. The columns that are to be used in this dashboard include:
 
-1. Country: String values that will appear five times, once for each year. 
+1. `Country`: String values that will appear five times, once for each year, indicating the name of the country in the dataset.
 
-2. Happiness Ranking: Integer values ranging from 1 to 156, representing the country’s happiness ranking globally. Each ranking will appear five times, as the same ranking can be assigned to different years.  
+2. `Overall rank` (also called `Happiness Rank` or `Happiness.Rank` in certain years): Integer values ranging from 1 to 158, representing the country’s happiness ranking globally. Each ranking will (typically) appear five times, as the countries are ranked once every year.
 
-3. Happiness Score: Continuous values that typically range between 7.8 and 2.8, with higher scores indicating greater happiness according to the data.  
+3. `Score` (also called `Happiness Score` or `Happiness.Score` in certain years): Continuous values that typically range between 7.8 and 2.8, with higher scores indicating greater happiness according to the data.  
 
-4. The following columns: GDP per capita, Family, Life Expectancy, Freedom, Generosity, and Trust (Government Corruption), are continuous variables. They detail the extent to which these factors contribute to a country's happiness score. These variables can be interpreted as coefficients and will range between 0 and 2.  
-  
-Utilizing this data, we will create certain columns such as a year column and a reverse-engineered version of the following variables: GDP per capita, Family, Life Expectancy, Freedom, Generosity, and Trust (Government Corruption), to provide additional, more interpretable data points. This will aid in better understanding the impact of various factors on a country's Happiness Score.
+4. The following columns (contributing factors to happiness): `GDP per capita` (also known as `Economy..GDP.per.Capita.` or `Economy (GDP per Capita)` in certain years), `Social support` (also known as `Family` in certain years), `Healthy life expectancy` (also known as `Health..Life.Expectancy.` or `Health (Life Expectancy)` in certain years), `Freedom to make life choices` (also known as `Freedom` in certain years), `Generosity`, and `Perceptions of corruption` (also known as `Trust..Government.Corruption.` or `Trust (Government Corruption)` in certain years) are continuous variables. They detail the extent to which these factors contribute to a country's happiness score. These variables can be interpreted as coefficients and range between 0 and 2.
+
+Utilizing this data, we will create certain columns such as a `year` column and a normalized version of each contribution factor to happiness above to provide additional, more interpretable data points. This will aid in better understanding the impact of various factors on a country's Happiness Score.
 
 ## Section 3: Research Questions and Usage Scenarios
 
