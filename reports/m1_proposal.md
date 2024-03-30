@@ -32,7 +32,9 @@ Our target audiences are members of high school geography/economy classes (teach
 
 Hypothetically, John finds that the economy factor contributes mostly to the happiness level, which likely makes sense considering that ultimately economy is the most major tie with quality of life for people around the world. He can then perhaps probe further into the economic models of the happiest and unhappiest countries in the world and see how they differ.
 
-## Section 4: App sketch & brief description
+## Section 4: App Sketch and Brief Description
+
+![sketch](../img/sketch.png)
 
 The World Happiness Tracker App allows users to explore the Happiness Score of different countries.
 
@@ -45,5 +47,3 @@ The block below the map consists of three parts that allow more insights into th
 The line plot visualizes the happiness over time of the two countries A and B over the years and highlights the year selected. By default, with no countries or year selected, the a line of the global average will be shown with no highlights.
 
 Finally, the bar chart breaks down the happiness score into its components and shows how much individual components contributed to the overall score.
-
-![sketch](../img/sketch.png)
