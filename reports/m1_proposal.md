@@ -32,7 +32,7 @@ Our target audiences are members of high school geography/economy classes (teach
 
 Using our tool, he is able to find the happiness level for each country/region across the world over time and compare two against each other in terms of their happiness level, ranking, and how some factors influence their levels such as economy, freedom, trust in government, etc. He can also use our filters to investigate deeper into specific countries and years of interest.
 
-Hypothetically, John finds that the economy is a major factor contributing to the happiness level, which likely makes sense considering that ultimately economy is the most major tie with quality of life for people around the world. He can then perhaps probe further into the economic models of the happiest and unhappiest countries in the world and see how they differ.
+Hypothetically, John finds that the economy is a major factor contributing to the happiness level, which likely makes sense considering that ultimately economy is the most major tie with quality of life for people around the world. He can then perhaps probe further into the economies of the happiest and unhappiest countries in the world and see how they differ.
 
 ## Section 4: App Sketch and Brief Description
 
