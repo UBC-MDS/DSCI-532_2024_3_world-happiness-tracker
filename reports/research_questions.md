@@ -1,6 +1,0 @@
-## Research Questions and Usage Scenarios
-Geography and economy classes in high school are mostly preliminary. They do not touch on really sophisticated topics and are only there to build the foundation for any future learning. A simple tool displaying world happiness level can let students understand the distributions of happiness across the world, how some of the happiest and unhappiest countries differ, and also inspect some of the underlying factors that influence these levels.
-
-Our target audiences are members of high school geography/economy classes (teachers and students). John is a high school student learning about geography. Using our tool, he is able to find the happiness level for each country/region across the world over time and compare two against each other in terms of their happiness level, ranking, and how some factors influence their levels such as economy, freedom, trust in government, etc.
-
-Hypothetically, John finds that the economy factor contributes mostly to the happiness level, which likely makes sense considering that ultimately economy is the most major tie with quality of life for people around the world. He can then perhaps probe further into the economic models of the happiest and unhappiest countries in the world and see how they differ.
