@@ -49,7 +49,8 @@ card_range = dbc.Card([dbc.CardBody([
         html.H4("[  range  ]")
     ])],
     color="#ececec",
-    style={"border": 0, "height": 200}
+    style={"border": 0, "height": 200},
+    id="card-range"
 )
 country1_dropdown = dcc.Dropdown(options=sorted(list(set(df_all["Country"]))),
                                  placeholder="Select Country 1...",
@@ -155,6 +156,25 @@ def update_card_happiest(year):
         html.Br(),
         html.H3(f"{unhappiest_country}", style={"text-align": "center"}),
         html.H5(f"({min_score})", style={"text-align": "center", "font-style": "italic"})
+    ])
+
+    return card_body
+
+
+@callback(
+    Output("card-range", "children"),
+    Input("year-select", "value")
+)
+def update_card_happiest(year):
+    df_card = df_all.loc[df_all["Year"] == year]
+    max_score = df_card["Score"].max()
+    min_score = df_card["Score"].min()
+    score_range = round(max_score - min_score, 3)
+
+    card_body = dbc.CardBody([
+        html.P(f"Score Difference between Happiest and Unhappiest Country ({year})"),
+        html.Br(),
+        html.H3(f"{score_range}", style={"text-align": "center"}),
     ])
 
     return card_body
