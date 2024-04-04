@@ -23,7 +23,8 @@ card_happiest = dbc.Card(
         html.H4("[  country_name (score)  ]")
     ])],
     color="#ececec",
-    style={"border": 0, "height": 200}
+    style={"border": 0, "height": 200},
+    id="card-happiest"
 )
 card_median = dbc.Card([dbc.CardBody([
         html.P("Median Happiness Score"),
@@ -102,6 +103,25 @@ app.layout = dbc.Container([
 
 
 # Server side callbacks/reactivity
+@callback(
+    Output("card-happiest", "children"),
+    Input("year-select", "value")
+)
+def update_card_happiest(year):
+    df_card = df_all.loc[df_all["Year"] == year]
+    max_score = df_card["Score"].max()
+    happiest_country = df_card.loc[df_card["Score"] == max_score, "Country"].reset_index(drop=True)[0]
+
+    card_body = dbc.CardBody([
+        html.P(f"Happiest Country ({year})"),
+        html.Br(),
+        html.H3(f"{happiest_country}", style={"text-align": "center"}),
+        html.H5(f"({max_score})", style={"text-align": "center", "font-style": "italic"})
+    ])
+
+    return card_body
+
+
 @callback(
     Output("world-map", "figure"),
     Input("country1-select", "value"),
