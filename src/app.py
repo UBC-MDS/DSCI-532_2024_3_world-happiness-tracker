@@ -17,37 +17,21 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # Components
 card_happiest = dbc.Card(
-    [dbc.CardBody([
-        html.P("Happiest Country"),
-        html.Br(),
-        html.H4("[  country_name (score)  ]")
-    ])],
     color="#ececec",
     style={"border": 0, "height": 200},
     id="card-happiest"
 )
-card_median = dbc.Card([dbc.CardBody([
-        html.P("Median Happiness Score"),
-        html.Br(),
-        html.H4("[  score  ]")
-    ])],
+card_median = dbc.Card(
     color="#ececec",
     style={"border": 0, "height": 200},
     id="card-median"
 )
-card_unhappiest = dbc.Card([dbc.CardBody([
-        html.P("Unhappiest Country"),
-        html.Br(),
-        html.H4("[  country_name (score)  ]")
-    ])],
+card_unhappiest = dbc.Card(
     color="#ececec",
     style={"border": 0, "height": 200},
     id="card-unhappiest"
 )
-card_range = dbc.Card([dbc.CardBody([
-        html.P("Score Difference between Happiest and Unhappiest Country"),
-        html.H4("[  range  ]")
-    ])],
+card_range = dbc.Card(
     color="#ececec",
     style={"border": 0, "height": 200},
     id="card-range"
