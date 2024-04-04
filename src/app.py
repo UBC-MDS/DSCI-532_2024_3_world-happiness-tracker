@@ -109,15 +109,10 @@ app.layout = dbc.Container([
 )
 def update_map(country1, year):
     map_df = df_all.loc[df_all["Year"] == year]
-    # map_df["show"] = "No"
     fig = px.choropleth(map_df, locations="Country", color="Score", locationmode="country names",
+                        color_continuous_scale=px.colors.sequential.Blues,
                         title="World Map of Happiness Scores")
     fig.update_layout(margin=dict(l=0, r=80, b=0, t=50))
-    # if country1:
-    #     map_df.loc[map_df["Country"] == country1, "show"] = "Yes"
-    #     fig.add_trace(px.choropleth(map_df,locations="Country", color="show",locationmode="country names",# showlegend = False,
-    #                                 color_discrete_sequence=["rgba(255,255,255,0.75)", "rgba(255,255,255,0)"]).data[0],
-    #                                 showlegend=False)
     
     return fig
 
