@@ -134,7 +134,7 @@ def update_card_happiest(year):
 
     card_body = dbc.CardBody([
         html.P(f"Median Happiness Score ({year})"),
-        html.Br(),
+        html.Br(style={"line-height": "250%"}),
         html.H3(f"{median_score}", style={"text-align": "center"}),
     ])
 
