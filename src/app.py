@@ -32,7 +32,8 @@ card_median = dbc.Card([dbc.CardBody([
         html.H4("[  score  ]")
     ])],
     color="#ececec",
-    style={"border": 0, "height": 200}
+    style={"border": 0, "height": 200},
+    id="card-median"
 )
 card_unhappiest = dbc.Card([dbc.CardBody([
         html.P("Unhappiest Country"),
@@ -117,6 +118,23 @@ def update_card_happiest(year):
         html.Br(),
         html.H3(f"{happiest_country}", style={"text-align": "center"}),
         html.H5(f"({max_score})", style={"text-align": "center", "font-style": "italic"})
+    ])
+
+    return card_body
+
+
+@callback(
+    Output("card-median", "children"),
+    Input("year-select", "value")
+)
+def update_card_happiest(year):
+    df_card = df_all.loc[df_all["Year"] == year]
+    median_score = df_card["Score"].median()
+
+    card_body = dbc.CardBody([
+        html.P(f"Median Happiness Score ({year})"),
+        html.Br(),
+        html.H3(f"{median_score}", style={"text-align": "center"}),
     ])
 
     return card_body
