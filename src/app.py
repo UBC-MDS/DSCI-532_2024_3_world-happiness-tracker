@@ -190,10 +190,11 @@ def update_map(country1, year):
 )
 def update_table(country1, country2, year):
     output_df = df_all.loc[df_all["Year"] == year]
-    happiest = output_df.loc[output_df["Overall rank"] == output_df["Overall rank"].max(), "Country"].tolist()[0]
-    unhappiest = output_df.loc[output_df["Overall rank"] == output_df["Overall rank"].min(), "Country"].tolist()[0]
+    top_3 = output_df.head(3)['Country'].tolist()
+    bottom_3 = output_df.tail(3)['Country'].tolist()
     if country1 and country2:
-        output_df = output_df[["Overall rank", "Country", "Score"]].query("Country == @country1 | Country == @country2")
+        countries_list = top_3 + bottom_3 + [country1, country2]
+        output_df = output_df[["Overall rank", "Country", "Score"]].query("Country in @countries_list")
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
@@ -201,8 +202,9 @@ def update_table(country1, country2, year):
             }
         ]
     elif country1:
+        countries_list = top_3 + bottom_3 + [country1]
         country_rank = output_df.loc[output_df["Country"] == country1, "Overall rank"].tolist()[0]
-        output_df = output_df.query("Country in [@happiest, @country1, @unhappiest]")
+        output_df = output_df.query("Country in @countries_list")
         output_df = output_df[["Overall rank", "Country", "Score"]]
         style = [
             {
@@ -211,8 +213,9 @@ def update_table(country1, country2, year):
             }
         ]
     elif country2:
+        countries_list = top_3 + bottom_3 + [country2]
         country_rank = output_df.loc[output_df["Country"] == country2, "Overall rank"].tolist()[0]
-        output_df = output_df.query("Country in [@happiest, @country2, @unhappiest]")
+        output_df = output_df.query("Country in @countries_list")
         output_df = output_df[["Overall rank", "Country", "Score"]]
         style = [
             {
