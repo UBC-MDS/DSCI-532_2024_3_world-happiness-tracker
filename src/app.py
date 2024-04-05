@@ -262,7 +262,8 @@ def update_linechart(country1, country2, year):
     
     if not country1 and not country2:
         grouped_df = df_all.groupby("Year")["Score"].mean().reset_index()
-        fig.add_trace(go.Scatter(x=grouped_df["Year"], y=grouped_df["Score"], mode='lines', name='Global Average'))
+        # Change mode to 'lines+markers' to see points for all years
+        fig.add_trace(go.Scatter(x=grouped_df["Year"], y=grouped_df["Score"], mode='lines+markers', name='Global Average'))
         if year in grouped_df["Year"].values:  # Check if the selected year is within the data
             global_y_point = grouped_df.loc[grouped_df["Year"] == year, "Score"].values[0]
             fig.add_trace(go.Scatter(x=[year], y=[global_y_point], mode='markers', name=f"Global {year}",
@@ -277,6 +278,7 @@ def update_linechart(country1, country2, year):
 
   
     fig.update_layout(
+        margin=dict(l=20, r=20, t=60, b=20),
         title="Happiness Score Over the Years",
         xaxis_title="Year",
         yaxis_title="Happiness Score",
