@@ -190,35 +190,34 @@ def update_map(country1, year):
 )
 def update_table(country1, country2, year):
     output_df = df_all.loc[df_all["Year"] == year]
+    happiest = output_df.loc[output_df["Overall rank"] == output_df["Overall rank"].max(), "Country"].tolist()[0]
+    unhappiest = output_df.loc[output_df["Overall rank"] == output_df["Overall rank"].min(), "Country"].tolist()[0]
     if country1 and country2:
-        # pasting code for no countries selected for now; change code in this condition
-        output_df = output_df[["Overall rank", "Country", "Score"]].head(10)
+        output_df = output_df[["Overall rank", "Country", "Score"]].query("Country == @country1 | Country == @country2")
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
-                "backgroundColor": "lime",
+                "font-weight": "bold",
             }
         ]
     elif country1:
-        # pasting code for no countries selected for now; change code in this condition
         country_rank = output_df.loc[output_df["Country"] == country1, "Overall rank"].tolist()[0]
-        output_df = output_df.loc[output_df["Overall rank"] >= country_rank - 2]
-        output_df = output_df.loc[output_df["Overall rank"] <= country_rank + 2]
+        output_df = output_df.query("Country in [@happiest, @country1, @unhappiest]")
         output_df = output_df[["Overall rank", "Country", "Score"]]
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(country_rank)},
-                "backgroundColor": "orange",
-                "color": "white"
+                "font-weight": "bold"
             }
         ]
     elif country2:
-        # pasting code for no countries selected for now; change code in this condition
-        output_df = output_df[["Overall rank", "Country", "Score"]].head(10)
+        country_rank = output_df.loc[output_df["Country"] == country2, "Overall rank"].tolist()[0]
+        output_df = output_df.query("Country in [@happiest, @country2, @unhappiest]")
+        output_df = output_df[["Overall rank", "Country", "Score"]]
         style = [
             {
-                "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
-                "backgroundColor": "lime",
+                "if": {"filter_query": "{{Overall rank}} = {}".format(country_rank)},
+                "font-weight": "bold"
             }
         ]
     else:
@@ -226,7 +225,7 @@ def update_table(country1, country2, year):
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
-                "backgroundColor": "lime",
+                "font-weight": "bold"
             }
         ]
 
@@ -279,23 +278,27 @@ def update_linechart(country1, country2, year):
 )
 def update_contributing_factors(country1, country2, year):
     factors_df = df_all.loc[df_all["Year"] == year]
+    
+    if (country1 and country2) or (country1) or (country2):
 
-    if country1 and country2:
-        # does the same thing as if no countries are selected for now;
-        #    change code in this condition
-        pass
-    elif country1:
-        factors_df = factors_df.loc[factors_df["Country"] == country1]
-    elif country2:
-        # does the same thing as if no countries are selected for now;
-        #    change code in this condition
-        pass
+        if country1 and country2:
+            factors_df = factors_df.loc[(factors_df["Country"] == country1) | (factors_df["Country"] == country2)]
+        elif country1:
+            factors_df = factors_df.loc[factors_df["Country"] == country1]
+        elif country2:
+            factors_df = factors_df.loc[factors_df["Country"] == country2]
+        
+        factors_df = factors_df.melt(id_vars = ["Country"], value_vars=factors, var_name="Factors", value_name="Proportion")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", color = 'Country', histfunc="avg", barmode="group")
+    
 
-    factors_df = factors_df[factors].melt(value_vars=factors, var_name="Factors", value_name="Proportion")
+    else:
+        factors_df = factors_df[factors].melt(value_vars=factors, var_name="Factors", value_name="Proportion")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg")
 
-    fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg")
     fig.update_layout(yaxis={"categoryorder": "mean ascending"},
-                      xaxis_title="Proportion of Contribution", yaxis_title="Factors",
+                      xaxis_title="Proportion of Contribution", 
+                      yaxis_title="Factors",
                       title="Factors Contributing to Happiness Index")
 
     return fig
