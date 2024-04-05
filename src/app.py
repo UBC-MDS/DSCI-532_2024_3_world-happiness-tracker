@@ -14,6 +14,8 @@ factors = ["GDP per capita", "Social support", "Healthy life expectancy",
 # Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+server = app.server
+
 
 # Components
 card_happiest = dbc.Card(
@@ -239,35 +241,55 @@ def update_table(country1, country2, year):
     Input("country2-select", "value"),
     Input("year-select", "value")
 )
+
 def update_linechart(country1, country2, year):
-    if country1 and country2:
-        # pasting code for no countries selected for now; change code in this condition
-        grouped_df = pd.DataFrame(df_all.groupby(["Year"])["Score"].mean()).reset_index()
-        y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
-        fig = px.line(grouped_df, x="Year", y="Score", markers=True, title="Happiness Score over the Years")
-        fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
-                                 marker_size = 15))
-    elif country1:
-        # pasting code for no countries selected for now; change code in this condition
-        grouped_df = pd.DataFrame(df_all.groupby(["Year"])["Score"].mean()).reset_index()
-        y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
-        fig = px.line(grouped_df, x="Year", y="Score", markers=True, title="Happiness Score over the Years")
-        fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
-                                 marker_size = 15))
-    elif country2:
-        # pasting code for no countries selected for now; change code in this condition
-        grouped_df = pd.DataFrame(df_all.groupby(["Year"])["Score"].mean()).reset_index()
-        y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
-        fig = px.line(grouped_df, x="Year", y="Score", markers=True, title="Happiness Score over the Years")
-        fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
-                                 marker_size = 15))
-    else:
-        grouped_df = pd.DataFrame(df_all.groupby(["Year"])["Score"].mean()).reset_index()
-        y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
-        fig = px.line(grouped_df, x="Year", y="Score", markers=True, title="Happiness Score over the Years")
-        fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
-                                 marker_size = 15))
+    fig = go.Figure()
+
     
+    if country1:
+        df_country1 = df_all[df_all["Country"] == country1]
+        fig.add_trace(go.Scatter(x=df_country1["Year"], y=df_country1["Score"], mode='lines+markers', name=country1))
+        if year in df_country1["Year"].values:  # Check if the selected year is within the data
+            y_point_country1 = df_country1.loc[df_country1["Year"] == year, "Score"].values[0]
+            fig.add_trace(go.Scatter(x=[year], y=[y_point_country1], mode='markers', name=f"{country1} {year}",
+                                     marker=dict(color='red', size=15), showlegend=False))
+    
+    
+    if country2:
+        df_country2 = df_all[df_all["Country"] == country2]
+        fig.add_trace(go.Scatter(x=df_country2["Year"], y=df_country2["Score"], mode='lines+markers', name=country2))
+        if year in df_country2["Year"].values:  # Check if the selected year is within the data
+            y_point_country2 = df_country2.loc[df_country2["Year"] == year, "Score"].values[0]
+            fig.add_trace(go.Scatter(x=[year], y=[y_point_country2], mode='markers', name=f"{country2} {year}",
+                                     marker=dict(color='red', size=15), showlegend=False))
+
+    
+    if not country1 and not country2:
+        grouped_df = df_all.groupby("Year")["Score"].mean().reset_index()
+        # Change mode to 'lines+markers' to see points for all years
+        fig.add_trace(go.Scatter(x=grouped_df["Year"], y=grouped_df["Score"], mode='lines+markers', name='Global Average'))
+        if year in grouped_df["Year"].values:  # Check if the selected year is within the data
+            global_y_point = grouped_df.loc[grouped_df["Year"] == year, "Score"].values[0]
+            fig.add_trace(go.Scatter(x=[year], y=[global_y_point], mode='markers', name=f"Global {year}",
+                                     marker=dict(color='red', size=15), showlegend=False))
+
+    
+    last_year = df_all["Year"].max()
+    fig.update_xaxes(range=[df_all["Year"].min() - 0.5, last_year + 0.5])  
+
+    
+    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+
+  
+    fig.update_layout(
+        margin=dict(l=20, r=20, t=60, b=20),
+        title="Happiness Score Over the Years",
+        xaxis_title="Year",
+        yaxis_title="Happiness Score",
+        legend_title="Country",
+        hovermode="closest"
+    )
+
     return fig
 
 
@@ -279,23 +301,27 @@ def update_linechart(country1, country2, year):
 )
 def update_contributing_factors(country1, country2, year):
     factors_df = df_all.loc[df_all["Year"] == year]
+    
+    if (country1 and country2) or (country1) or (country2):
 
-    if country1 and country2:
-        # does the same thing as if no countries are selected for now;
-        #    change code in this condition
-        pass
-    elif country1:
-        factors_df = factors_df.loc[factors_df["Country"] == country1]
-    elif country2:
-        # does the same thing as if no countries are selected for now;
-        #    change code in this condition
-        pass
+        if country1 and country2:
+            factors_df = factors_df.loc[(factors_df["Country"] == country1) | (factors_df["Country"] == country2)]
+        elif country1:
+            factors_df = factors_df.loc[factors_df["Country"] == country1]
+        elif country2:
+            factors_df = factors_df.loc[factors_df["Country"] == country2]
+        
+        factors_df = factors_df.melt(id_vars = ["Country"], value_vars=factors, var_name="Factors", value_name="Proportion")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", color = 'Country', histfunc="avg", barmode="group")
+    
 
-    factors_df = factors_df[factors].melt(value_vars=factors, var_name="Factors", value_name="Proportion")
+    else:
+        factors_df = factors_df[factors].melt(value_vars=factors, var_name="Factors", value_name="Proportion")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg")
 
-    fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg")
     fig.update_layout(yaxis={"categoryorder": "mean ascending"},
-                      xaxis_title="Proportion of Contribution", yaxis_title="Factors",
+                      xaxis_title="Proportion of Contribution", 
+                      yaxis_title="Factors",
                       title="Factors Contributing to Happiness Index")
 
     return fig
@@ -303,4 +329,4 @@ def update_contributing_factors(country1, country2, year):
 
 # Run the app/dashboard
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
