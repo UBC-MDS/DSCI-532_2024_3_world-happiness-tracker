@@ -39,7 +39,19 @@ countries_2017 = set(df_2017["Country"].tolist())
 countries_2016 = set(df_2016["Country"].tolist())
 countries_2015 = set(df_2015["Country"].tolist())
 select_countries = countries_2019.intersection(countries_2018).intersection(countries_2017)\
-    .intersection(countries_2016).intersection(countries_2015)
+    .intersection(countries_2016).intersection(countries_2015)\
+
+df_2019 = df_2019.loc[df_2019["Country"].isin(select_countries)]
+df_2018 = df_2018.loc[df_2018["Country"].isin(select_countries)]
+df_2017 = df_2017.loc[df_2017["Country"].isin(select_countries)]
+df_2016 = df_2016.loc[df_2016["Country"].isin(select_countries)]
+df_2015 = df_2015.loc[df_2015["Country"].isin(select_countries)]
+
+df_2019["Overall rank"] = list(range(1, len(df_2019)+1))
+df_2018["Overall rank"] = list(range(1, len(df_2018)+1))
+df_2017["Overall rank"] = list(range(1, len(df_2017)+1))
+df_2016["Overall rank"] = list(range(1, len(df_2016)+1))
+df_2015["Overall rank"] = list(range(1, len(df_2015)+1))
 
 df_all = pd.concat([df_2019, df_2018, df_2017, df_2016, df_2015])
 df_all["Score"] = df_all["Score"].round(3)
@@ -53,7 +65,6 @@ df_2019.drop(columns=["sum"], inplace=True)
 df_all["sum"] = df_all[factors].sum(axis=1)
 df_all[factors] = df_all[factors].div(df_all["sum"], axis=0)
 df_all.drop(columns=["sum"], inplace=True)
-df_all = df_all.loc[df_all["Country"].isin(select_countries)]
 
 
 df_all.to_csv("data/processed/app_data.csv")
