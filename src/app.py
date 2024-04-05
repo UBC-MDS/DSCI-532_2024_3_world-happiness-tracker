@@ -14,6 +14,8 @@ factors = ["GDP per capita", "Social support", "Healthy life expectancy",
 # Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+server = app.server
+
 
 # Components
 card_happiest = dbc.Card(
@@ -304,4 +306,4 @@ def update_contributing_factors(country1, country2, year):
 
 # Run the app/dashboard
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
