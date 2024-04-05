@@ -237,35 +237,53 @@ def update_table(country1, country2, year):
     Input("country2-select", "value"),
     Input("year-select", "value")
 )
+
 def update_linechart(country1, country2, year):
-    if country1 and country2:
-        # pasting code for no countries selected for now; change code in this condition
-        grouped_df = pd.DataFrame(df_all.groupby(["Year"])["Score"].mean()).reset_index()
-        y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
-        fig = px.line(grouped_df, x="Year", y="Score", markers=True, title="Happiness Score over the Years")
-        fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
-                                 marker_size = 15))
-    elif country1:
-        # pasting code for no countries selected for now; change code in this condition
-        grouped_df = pd.DataFrame(df_all.groupby(["Year"])["Score"].mean()).reset_index()
-        y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
-        fig = px.line(grouped_df, x="Year", y="Score", markers=True, title="Happiness Score over the Years")
-        fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
-                                 marker_size = 15))
-    elif country2:
-        # pasting code for no countries selected for now; change code in this condition
-        grouped_df = pd.DataFrame(df_all.groupby(["Year"])["Score"].mean()).reset_index()
-        y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
-        fig = px.line(grouped_df, x="Year", y="Score", markers=True, title="Happiness Score over the Years")
-        fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
-                                 marker_size = 15))
-    else:
-        grouped_df = pd.DataFrame(df_all.groupby(["Year"])["Score"].mean()).reset_index()
-        y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
-        fig = px.line(grouped_df, x="Year", y="Score", markers=True, title="Happiness Score over the Years")
-        fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
-                                 marker_size = 15))
+    fig = go.Figure()
+
     
+    if country1:
+        df_country1 = df_all[df_all["Country"] == country1]
+        fig.add_trace(go.Scatter(x=df_country1["Year"], y=df_country1["Score"], mode='lines+markers', name=country1))
+        if year in df_country1["Year"].values:  # Check if the selected year is within the data
+            y_point_country1 = df_country1.loc[df_country1["Year"] == year, "Score"].values[0]
+            fig.add_trace(go.Scatter(x=[year], y=[y_point_country1], mode='markers', name=f"{country1} {year}",
+                                     marker=dict(color='red', size=15), showlegend=False))
+    
+    
+    if country2:
+        df_country2 = df_all[df_all["Country"] == country2]
+        fig.add_trace(go.Scatter(x=df_country2["Year"], y=df_country2["Score"], mode='lines+markers', name=country2))
+        if year in df_country2["Year"].values:  # Check if the selected year is within the data
+            y_point_country2 = df_country2.loc[df_country2["Year"] == year, "Score"].values[0]
+            fig.add_trace(go.Scatter(x=[year], y=[y_point_country2], mode='markers', name=f"{country2} {year}",
+                                     marker=dict(color='red', size=15), showlegend=False))
+
+    
+    if not country1 and not country2:
+        grouped_df = df_all.groupby("Year")["Score"].mean().reset_index()
+        fig.add_trace(go.Scatter(x=grouped_df["Year"], y=grouped_df["Score"], mode='lines', name='Global Average'))
+        if year in grouped_df["Year"].values:  # Check if the selected year is within the data
+            global_y_point = grouped_df.loc[grouped_df["Year"] == year, "Score"].values[0]
+            fig.add_trace(go.Scatter(x=[year], y=[global_y_point], mode='markers', name=f"Global {year}",
+                                     marker=dict(color='red', size=15), showlegend=False))
+
+    
+    last_year = df_all["Year"].max()
+    fig.update_xaxes(range=[df_all["Year"].min() - 0.5, last_year + 0.5])  
+
+    
+    fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
+
+  
+    fig.update_layout(
+        title="Happiness Score Over the Years",
+        xaxis_title="Year",
+        yaxis_title="Happiness Score",
+        legend_title="Country",
+        hovermode="closest"
+    )
+
     return fig
 
 
