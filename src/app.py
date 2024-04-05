@@ -210,12 +210,14 @@ def update_table(country1, country2, year):
             }
         ]
     elif country2:
-        # pasting code for no countries selected for now; change code in this condition
-        output_df = output_df[["Overall rank", "Country", "Score"]].head(10)
+        country_rank = output_df.loc[output_df["Country"] == country2, "Overall rank"].tolist()[0]
+        output_df = output_df.query("Country in [@happiest, @country2, @unhappiest]")
+        output_df = output_df[["Overall rank", "Country", "Score"]]
         style = [
             {
-                "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
-                "backgroundColor": "lime",
+                "if": {"filter_query": "{{Overall rank}} = {}".format(country_rank)},
+                "backgroundColor": "orange",
+                "color": "white"
             }
         ]
     else:
