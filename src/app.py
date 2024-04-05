@@ -277,23 +277,27 @@ def update_linechart(country1, country2, year):
 )
 def update_contributing_factors(country1, country2, year):
     factors_df = df_all.loc[df_all["Year"] == year]
+    
+    if (country1 and country2) or (country1) or (country2):
 
-    if country1 and country2:
-        # does the same thing as if no countries are selected for now;
-        #    change code in this condition
-        pass
-    elif country1:
-        factors_df = factors_df.loc[factors_df["Country"] == country1]
-    elif country2:
-        # does the same thing as if no countries are selected for now;
-        #    change code in this condition
-        pass
+        if country1 and country2:
+            factors_df = factors_df.loc[(factors_df["Country"] == country1) | (factors_df["Country"] == country2)]
+        elif country1:
+            factors_df = factors_df.loc[factors_df["Country"] == country1]
+        elif country2:
+            factors_df = factors_df.loc[factors_df["Country"] == country2]
+        
+        factors_df = factors_df.melt(id_vars = ["Country"], value_vars=factors, var_name="Factors", value_name="Proportion")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", color = 'Country', histfunc="avg", barmode="group")
+    
 
-    factors_df = factors_df[factors].melt(value_vars=factors, var_name="Factors", value_name="Proportion")
+    else:
+        factors_df = factors_df[factors].melt(value_vars=factors, var_name="Factors", value_name="Proportion")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg")
 
-    fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg")
     fig.update_layout(yaxis={"categoryorder": "mean ascending"},
-                      xaxis_title="Proportion of Contribution", yaxis_title="Factors",
+                      xaxis_title="Proportion of Contribution", 
+                      yaxis_title="Factors",
                       title="Factors Contributing to Happiness Index")
 
     return fig
