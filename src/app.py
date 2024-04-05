@@ -188,35 +188,34 @@ def update_map(country1, year):
 )
 def update_table(country1, country2, year):
     output_df = df_all.loc[df_all["Year"] == year]
+    happiest = output_df.loc[output_df["Overall rank"] == output_df["Overall rank"].max(), "Country"].tolist()[0]
+    unhappiest = output_df.loc[output_df["Overall rank"] == output_df["Overall rank"].min(), "Country"].tolist()[0]
     if country1 and country2:
-        # pasting code for no countries selected for now; change code in this condition
-        output_df = output_df[["Overall rank", "Country", "Score"]].head(10)
+        output_df = output_df[["Overall rank", "Country", "Score"]].query("Country == @country1 | Country == @country2")
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
-                "backgroundColor": "lime",
+                "font-weight": "bold",
             }
         ]
     elif country1:
-        # pasting code for no countries selected for now; change code in this condition
         country_rank = output_df.loc[output_df["Country"] == country1, "Overall rank"].tolist()[0]
-        output_df = output_df.loc[output_df["Overall rank"] >= country_rank - 2]
-        output_df = output_df.loc[output_df["Overall rank"] <= country_rank + 2]
+        output_df = output_df.query("Country in [@happiest, @country1, @unhappiest]")
         output_df = output_df[["Overall rank", "Country", "Score"]]
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(country_rank)},
-                "backgroundColor": "orange",
-                "color": "white"
+                "font-weight": "bold"
             }
         ]
     elif country2:
-        # pasting code for no countries selected for now; change code in this condition
-        output_df = output_df[["Overall rank", "Country", "Score"]].head(10)
+        country_rank = output_df.loc[output_df["Country"] == country2, "Overall rank"].tolist()[0]
+        output_df = output_df.query("Country in [@happiest, @country2, @unhappiest]")
+        output_df = output_df[["Overall rank", "Country", "Score"]]
         style = [
             {
-                "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
-                "backgroundColor": "lime",
+                "if": {"filter_query": "{{Overall rank}} = {}".format(country_rank)},
+                "font-weight": "bold"
             }
         ]
     else:
@@ -224,7 +223,7 @@ def update_table(country1, country2, year):
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
-                "backgroundColor": "lime",
+                "font-weight": "bold"
             }
         ]
 
