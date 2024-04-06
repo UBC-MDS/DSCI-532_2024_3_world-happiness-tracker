@@ -276,7 +276,6 @@ def update_linechart(country1, country2, year):
         grouped_df = df_all.groupby("Year")["Score"].mean().reset_index()
         # Change mode to 'lines+markers' to see points for all years
         fig.add_trace(go.Scatter(x=grouped_df["Year"], y=grouped_df["Score"], mode='lines+markers', name='Global Average'))
-        print(fig.data)
         if year in grouped_df["Year"].values:  # Check if the selected year is within the data
             global_y_point = grouped_df.loc[grouped_df["Year"] == year, "Score"].values[0]
             fig.add_trace(go.Scatter(x=[year], y=[global_y_point], mode='markers', name=f"Global {year}",
@@ -298,8 +297,6 @@ def update_linechart(country1, country2, year):
         legend_title="Country",
         hovermode="closest"
     )
-    
-    # fig.update_traces(marker=dict(colors=colors))
 
     return fig
 
