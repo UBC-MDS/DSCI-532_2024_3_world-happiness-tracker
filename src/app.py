@@ -48,7 +48,7 @@ year_slider = dcc.Slider(min=2015, max=2019, value=2019,
                          marks={i: "{}".format(i) for i in range(2015,2020)},
                          step=1, id="year-select")
 world_map = dcc.Graph(id="world-map")
-table_title = html.P("Country Rankings")
+table_title = html.P("Country Rankings*")
 rank_table = dash_table.DataTable(id="rank-table")
 line_chart = dcc.Graph(id="line-chart")
 factors_graph = dcc.Graph(id="factors-graph")
@@ -88,6 +88,8 @@ app.layout = dbc.Container([
         dbc.Col(factors_graph)
     ]),
     html.Br(),
+    html.P("*This dashboard only includes the countries that appear in the dataset of all 5 years. The remaining countries were then re-ranked.",
+           style={"font-size": "12px"}),
     html.P("This app illustrates an overview of happiness in countries around the world across 5 years.",
            style={"font-size": "12px"}),
     html.P("Authors: Hongyang Zhang, Jerry Yu, Michelle Hunn, Paolo De Lagrave-Codina",
