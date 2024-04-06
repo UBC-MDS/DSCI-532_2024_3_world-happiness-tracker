@@ -9,6 +9,7 @@ import plotly.graph_objects as go
 df_all = pd.read_csv("data/processed/app_data.csv")
 factors = ["GDP per capita", "Social support", "Healthy life expectancy",
            "Freedom to make life choices", "Generosity", "Perceptions of corruption"]
+colors = ['#636EFA', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
 
 
 # Initialize the app
@@ -252,7 +253,6 @@ def update_table(country1, country2, year):
 
 def update_linechart(country1, country2, year):
     fig = go.Figure()
-
     
     if country1:
         df_country1 = df_all[df_all["Country"] == country1]
@@ -260,7 +260,7 @@ def update_linechart(country1, country2, year):
         if year in df_country1["Year"].values:  # Check if the selected year is within the data
             y_point_country1 = df_country1.loc[df_country1["Year"] == year, "Score"].values[0]
             fig.add_trace(go.Scatter(x=[year], y=[y_point_country1], mode='markers', name=f"{country1} {year}",
-                                     marker=dict(color='red', size=15), showlegend=False))
+                                    marker=dict(color='red', size=15), showlegend=False))
     
     
     if country2:
@@ -269,13 +269,14 @@ def update_linechart(country1, country2, year):
         if year in df_country2["Year"].values:  # Check if the selected year is within the data
             y_point_country2 = df_country2.loc[df_country2["Year"] == year, "Score"].values[0]
             fig.add_trace(go.Scatter(x=[year], y=[y_point_country2], mode='markers', name=f"{country2} {year}",
-                                     marker=dict(color='red', size=15), showlegend=False))
+                                    marker=dict(color='red', size=15), showlegend=False))
 
     
     if not country1 and not country2:
         grouped_df = df_all.groupby("Year")["Score"].mean().reset_index()
         # Change mode to 'lines+markers' to see points for all years
         fig.add_trace(go.Scatter(x=grouped_df["Year"], y=grouped_df["Score"], mode='lines+markers', name='Global Average'))
+        print(fig.data)
         if year in grouped_df["Year"].values:  # Check if the selected year is within the data
             global_y_point = grouped_df.loc[grouped_df["Year"] == year, "Score"].values[0]
             fig.add_trace(go.Scatter(x=[year], y=[global_y_point], mode='markers', name=f"Global {year}",
@@ -297,6 +298,8 @@ def update_linechart(country1, country2, year):
         legend_title="Country",
         hovermode="closest"
     )
+    
+    # fig.update_traces(marker=dict(colors=colors))
 
     return fig
 
@@ -313,19 +316,20 @@ def update_contributing_factors(country1, country2, year):
     if (country1 and country2) or (country1) or (country2):
 
         if country1 and country2:
-            factors_df = factors_df.loc[(factors_df["Country"] == country1) | (factors_df["Country"] == country2)]
+            country1_df = df_all[df_all["Country"].isin([country1])]
+            country2_df = df_all[df_all["Country"].isin([country2])]
+            factors_df = pd.concat([country1_df, country2_df])
         elif country1:
             factors_df = factors_df.loc[factors_df["Country"] == country1]
         elif country2:
             factors_df = factors_df.loc[factors_df["Country"] == country2]
-        
+ 
         factors_df = factors_df.melt(id_vars = ["Country"], value_vars=factors, var_name="Factors", value_name="Proportion")
-        fig = px.histogram(factors_df, x="Proportion", y="Factors", color = 'Country', histfunc="avg", barmode="group")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", color = 'Country', histfunc="avg", barmode="group", color_discrete_sequence=colors)
     
-
     else:
         factors_df = factors_df[factors].melt(value_vars=factors, var_name="Factors", value_name="Proportion")
-        fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg", color_discrete_sequence=colors)
 
     fig.update_layout(yaxis={"categoryorder": "mean ascending"},
                       xaxis_title="Proportion of Contribution", 
