@@ -9,6 +9,7 @@ import plotly.graph_objects as go
 df_all = pd.read_csv("data/processed/app_data.csv")
 factors = ["GDP per capita", "Social support", "Healthy life expectancy",
            "Freedom to make life choices", "Generosity", "Perceptions of corruption"]
+colors = ['#636EFA', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
 
 
 # Initialize the app
@@ -200,10 +201,11 @@ def update_map(country1, year):
 )
 def update_table(country1, country2, year):
     output_df = df_all.loc[df_all["Year"] == year]
-    happiest = output_df.loc[output_df["Overall rank"] == output_df["Overall rank"].max(), "Country"].tolist()[0]
-    unhappiest = output_df.loc[output_df["Overall rank"] == output_df["Overall rank"].min(), "Country"].tolist()[0]
+    top_3 = output_df.head(3)['Country'].tolist()
+    bottom_3 = output_df.tail(3)['Country'].tolist()
     if country1 and country2:
-        output_df = output_df[["Overall rank", "Country", "Score"]].query("Country == @country1 | Country == @country2")
+        countries_list = top_3 + bottom_3 + [country1, country2]
+        output_df = output_df[["Overall rank", "Country", "Score"]].query("Country in @countries_list")
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
@@ -211,8 +213,9 @@ def update_table(country1, country2, year):
             }
         ]
     elif country1:
+        countries_list = top_3 + bottom_3 + [country1]
         country_rank = output_df.loc[output_df["Country"] == country1, "Overall rank"].tolist()[0]
-        output_df = output_df.query("Country in [@happiest, @country1, @unhappiest]")
+        output_df = output_df.query("Country in @countries_list")
         output_df = output_df[["Overall rank", "Country", "Score"]]
         style = [
             {
@@ -221,8 +224,9 @@ def update_table(country1, country2, year):
             }
         ]
     elif country2:
+        countries_list = top_3 + bottom_3 + [country2]
         country_rank = output_df.loc[output_df["Country"] == country2, "Overall rank"].tolist()[0]
-        output_df = output_df.query("Country in [@happiest, @country2, @unhappiest]")
+        output_df = output_df.query("Country in @countries_list")
         output_df = output_df[["Overall rank", "Country", "Score"]]
         style = [
             {
@@ -251,7 +255,6 @@ def update_table(country1, country2, year):
 
 def update_linechart(country1, country2, year):
     fig = go.Figure()
-
     
     if country1:
         df_country1 = df_all[df_all["Country"] == country1]
@@ -259,7 +262,7 @@ def update_linechart(country1, country2, year):
         if year in df_country1["Year"].values:  # Check if the selected year is within the data
             y_point_country1 = df_country1.loc[df_country1["Year"] == year, "Score"].values[0]
             fig.add_trace(go.Scatter(x=[year], y=[y_point_country1], mode='markers', name=f"{country1} {year}",
-                                     marker=dict(color='red', size=15), showlegend=False))
+                                    marker=dict(color='red', size=15), showlegend=False))
     
     
     if country2:
@@ -268,7 +271,7 @@ def update_linechart(country1, country2, year):
         if year in df_country2["Year"].values:  # Check if the selected year is within the data
             y_point_country2 = df_country2.loc[df_country2["Year"] == year, "Score"].values[0]
             fig.add_trace(go.Scatter(x=[year], y=[y_point_country2], mode='markers', name=f"{country2} {year}",
-                                     marker=dict(color='red', size=15), showlegend=False))
+                                    marker=dict(color='red', size=15), showlegend=False))
 
     
     if not country1 and not country2:
@@ -312,19 +315,20 @@ def update_contributing_factors(country1, country2, year):
     if (country1 and country2) or (country1) or (country2):
 
         if country1 and country2:
-            factors_df = factors_df.loc[(factors_df["Country"] == country1) | (factors_df["Country"] == country2)]
+            country1_df = df_all[df_all["Country"].isin([country1])]
+            country2_df = df_all[df_all["Country"].isin([country2])]
+            factors_df = pd.concat([country1_df, country2_df])
         elif country1:
             factors_df = factors_df.loc[factors_df["Country"] == country1]
         elif country2:
             factors_df = factors_df.loc[factors_df["Country"] == country2]
-        
+ 
         factors_df = factors_df.melt(id_vars = ["Country"], value_vars=factors, var_name="Factors", value_name="Proportion")
-        fig = px.histogram(factors_df, x="Proportion", y="Factors", color = 'Country', histfunc="avg", barmode="group")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", color = 'Country', histfunc="avg", barmode="group", color_discrete_sequence=colors)
     
-
     else:
         factors_df = factors_df[factors].melt(value_vars=factors, var_name="Factors", value_name="Proportion")
-        fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg")
+        fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg", color_discrete_sequence=colors)
 
     fig.update_layout(yaxis={"categoryorder": "mean ascending"},
                       xaxis_title="Proportion of Contribution", 
