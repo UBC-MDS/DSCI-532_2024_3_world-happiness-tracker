@@ -13,7 +13,8 @@ Our World Happiness Tracker Dashboard is designed to make the analysis of global
 •	Interactive Visuals: Engage with our range of visualizations to gain deeper insights into what influences happiness around the world.  
 
 ### important links
-See the Dashboard here: deployment link  
+See the Dashboard here: https://dsci-532-2024-3-world-happiness-tracker.onrender.com/  
+
 link to Demo GIF  
 
 If you see any problems with the dashboard, please follow this link and create a new issue: https://github.com/UBC-MDS/DSCI-532_2024_3_world-happiness-tracker/issues 
