@@ -51,8 +51,12 @@ year_slider = dcc.Slider(min=2015, max=2019, value=2019,
 world_map = dbc.Card(children=[html.H5("World Map of Happiness Scores"),
                                dcc.Graph(id="world-map")],
                      body=True)
-table_title = html.P("Country Rankings*")
-rank_table = dash_table.DataTable(id="rank-table")
+# table_title = html.P("Country Rankings*")
+rank_table = dbc.Card(children=[html.H5("Country Rankings*"),
+                                html.Br(),
+                                dash_table.DataTable(id="rank-table")],
+                      body=True,
+                      style={"height":"100%"})
 line_chart = dcc.Graph(id="line-chart")
 factors_graph = dcc.Graph(id="factors-graph")
 
@@ -82,8 +86,7 @@ app.layout = dbc.Container([
     html.Br(),
     dbc.Row([
         dbc.Col(world_map, width=8),
-        dbc.Col([dbc.Row(table_title),
-                 dbc.Row(rank_table)])
+        dbc.Col(rank_table),
     ]),
     html.Br(),
     dbc.Row([
