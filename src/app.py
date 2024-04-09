@@ -82,9 +82,9 @@ app.layout = dbc.Container([
     html.Br(),
     dbc.Row([
         dbc.Col(card_happiest),
-        dbc.Col(card_median),
         dbc.Col(card_unhappiest),
-        dbc.Col(card_range)
+        dbc.Col(card_range),
+        dbc.Col(card_median)
     ]),
     html.Br(),
     dbc.Row([
