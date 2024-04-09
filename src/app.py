@@ -48,11 +48,20 @@ country2_dropdown = dcc.Dropdown(options=sorted(list(set(df_all["Country"]))),
 year_slider = dcc.Slider(min=2015, max=2019, value=2019,
                          marks={i: "{}".format(i) for i in range(2015,2020)},
                          step=1, id="year-select")
-world_map = dcc.Graph(id="world-map")
-table_title = html.P("Country Rankings*")
-rank_table = dash_table.DataTable(id="rank-table")
-line_chart = dcc.Graph(id="line-chart")
-factors_graph = dcc.Graph(id="factors-graph")
+world_map = dbc.Card(children=[html.H5("World Map of Happiness Scores"),
+                               dcc.Graph(id="world-map")],
+                     body=True)
+rank_table = dbc.Card(children=[html.H5("Country Rankings*"),
+                                html.Br(),
+                                dash_table.DataTable(id="rank-table")],
+                      body=True,
+                      style={"height":"100%"})
+line_chart = dbc.Card(children=[html.H5("World Map of Happiness Scores"),
+                                dcc.Graph(id="line-chart")],
+                      body=True)
+factors_graph = dbc.Card(children=[html.H5("Factors Contributing to Happiness Index"),
+                                   dcc.Graph(id="factors-graph")],
+                         body=True)
 
 
 # Layout
@@ -80,8 +89,7 @@ app.layout = dbc.Container([
     html.Br(),
     dbc.Row([
         dbc.Col(world_map, width=8),
-        dbc.Col([dbc.Row(table_title),
-                 dbc.Row(rank_table)])
+        dbc.Col(rank_table),
     ]),
     html.Br(),
     dbc.Row([
@@ -185,9 +193,8 @@ def update_card_happiest(year):
 def update_map(country1, year):
     map_df = df_all.loc[df_all["Year"] == year]
     fig = px.choropleth(map_df, locations="Country", color="Score", locationmode="country names",
-                        color_continuous_scale=px.colors.sequential.Blues,
-                        title="World Map of Happiness Scores")
-    fig.update_layout(margin=dict(l=0, r=80, b=0, t=50))
+                        color_continuous_scale=px.colors.sequential.Blues)
+    fig.update_layout(margin=dict(l=0, r=80, b=0, t=0))
     
     return fig
 
@@ -345,4 +352,4 @@ def update_contributing_factors(country1, country2, year):
 
 # Run the app/dashboard
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
