@@ -47,7 +47,7 @@ country2_dropdown = dcc.Dropdown(options=sorted(list(set(df_all["Country"]))),
                                  id="country2-select")
 year_slider = dcc.Slider(min=2015, max=2019, value=2019,
                          marks={i: "{}".format(i) for i in range(2015,2020)},
-                         step=1, id="year-select")
+                         step=1, included=False, id="year-select")
 world_map = dbc.Card(children=[html.H5("World Map of Happiness Scores"),
                                dcc.Graph(id="world-map")],
                      body=True)
