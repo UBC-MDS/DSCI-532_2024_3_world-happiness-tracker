@@ -65,10 +65,27 @@ factors_graph = dbc.Card(children=[html.H5("Factors Contributing to Happiness In
 
 
 # Layout
+# Your imports and data preparation...
+
+# Define the Navbar component with inline styling for the background color
+navbar = dbc.NavbarSimple(
+    children=[
+        dbc.NavItem(dbc.NavLink("Link", href="#")),
+        # You can add more navigation items if needed
+    ],
+    brand="World Happiness Tracker",
+    brand_href="#",
+    color="primary",  # This sets the theme color, you can use 'style' for specific colors
+    dark=True,  # Assuming a dark theme; set to False for a light theme
+    style={"backgroundColor": "#007BFF"},  # Customize your navbar background color here
+)
+
+
 app.layout = dbc.Container([
-    html.Br(),
-    html.H1("World Happiness Tracker"),
-    html.Br(),
+    navbar,
+    #html.Br(),
+    #html.H1("World Happiness Tracker"),
+    #html.Br(),
     dbc.Row([
         dbc.Col(html.Label(["Country 1"])),
         dbc.Col(html.Label(["Country 2"])),
