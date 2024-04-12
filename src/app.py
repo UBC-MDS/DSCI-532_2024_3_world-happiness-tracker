@@ -4,6 +4,10 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from data import happiness_data
+from components.navbar import navbar, about_text
+from components.filters import country1_dropdown, country2_dropdown, year_slider
+from components.cards import card_happiest, card_median, card_range, card_unhappiest
+from components.charts import world_map, rank_table, line_chart, factors_graph
 
 
 
@@ -18,85 +22,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 
 
-# Components
-card_happiest = dbc.Card(
-    color="#ececec",
-    style={"border": 0, "height": 200},
-    id="card-happiest"
-)
-card_median = dbc.Card(
-    color="#ececec",
-    style={"border": 0, "height": 200},
-    id="card-median"
-)
-card_unhappiest = dbc.Card(
-    color="#ececec",
-    style={"border": 0, "height": 200},
-    id="card-unhappiest"
-)
-card_range = dbc.Card(
-    color="#ececec",
-    style={"border": 0, "height": 200},
-    id="card-range"
-)
-country1_dropdown = dcc.Dropdown(options=sorted(list(set(happiness_data["Country"]))),
-                                 placeholder="Select Country 1...",
-                                 id="country1-select")
-country2_dropdown = dcc.Dropdown(options=sorted(list(set(happiness_data["Country"]))),
-                                 placeholder="Select Country 2...",
-                                 id="country2-select")
-year_slider = dcc.Slider(min=2015, max=2019, value=2019,
-                         marks={i: "{}".format(i) for i in range(2015,2020)},
-                         step=1, included=False, id="year-select")
-world_map = dbc.Card(children=[html.H5("World Map of Happiness Scores"),
-                               dcc.Graph(id="world-map")],
-                     body=True)
-rank_table = dbc.Card(children=[html.H5("Country Rankings*"),
-                                html.Br(),
-                                dash_table.DataTable(id="rank-table")],
-                      body=True,
-                      style={"height":"100%"})
-line_chart = dbc.Card(children=[html.H5("World Map of Happiness Scores"),
-                                dcc.Graph(id="line-chart")],
-                      body=True)
-factors_graph = dbc.Card(children=[html.H5("Factors Contributing to Happiness Index"),
-                                   dcc.Graph(id="factors-graph")],
-                         body=True)
-
-
 # Layout
-
-navbar = dbc.NavbarSimple(
-    children=[
-        dbc.NavItem(dbc.NavLink("GitHub", href="https://github.com/UBC-MDS/DSCI-532_2024_3_world-happiness-tracker", target="_blank")),
-        dbc.Button("About", id="open-about", color="secondary", className="ml-2"),
-       
-    ],
-    brand="World Happiness Tracker",
-    brand_href="#",
-    id='custom-navbar', 
-    color="primary",  
-    dark=True,  
-)
-
-about_text_style = {'display': 'none', 'backgroundColor': '#006AA7', 'color': 'white', 'padding': '10px'}
-
-
-about_text = html.Div(
-    [
-        html.P(
-            [
-                "This app illustrates an overview of happiness in countries around the world across 5 years.",
-                html.Br(),
-                "The dashboard only includes the countries that appear in the dataset of all 5 years. The remaining countries were then re-ranked.",
-            ],
-            id='about-text',
-            style=about_text_style  
-        )
-    ],
-    className='rounded-bottom'  
-)
-
 app.layout = dbc.Container([
     navbar,
     about_text,
@@ -370,7 +296,7 @@ def update_contributing_factors(country1, country2, year):
     if (country1 and country2) or (country1) or (country2):
 
         if country1 and country2:
-            factors_df = happiness_data[happiness_data["Country"].isin([country1, country2])]
+            factors_df = factors_df[factors_df["Country"].isin([country1, country2])]
         elif country1:
             factors_df = factors_df.loc[factors_df["Country"] == country1]
         elif country2:
