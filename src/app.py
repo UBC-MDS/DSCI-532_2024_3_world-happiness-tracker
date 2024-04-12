@@ -1,4 +1,4 @@
-from dash import Dash, html, dash_table, dcc, Input, Output, callback
+from dash import Dash, html, dash_table, dcc, Input, Output, callback, State
 import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
@@ -65,27 +65,42 @@ factors_graph = dbc.Card(children=[html.H5("Factors Contributing to Happiness In
 
 
 # Layout
-# Your imports and data preparation...
 
-# Define the Navbar component with inline styling for the background color
 navbar = dbc.NavbarSimple(
     children=[
-        dbc.NavItem(dbc.NavLink("Link", href="#")),
-        # You can add more navigation items if needed
+        dbc.NavItem(dbc.NavLink("GitHub", href="https://github.com/UBC-MDS/DSCI-532_2024_3_world-happiness-tracker", target="_blank")),
+        dbc.Button("About", id="open-about", color="secondary", className="ml-2"),
+       
     ],
     brand="World Happiness Tracker",
     brand_href="#",
-    color="primary",  # This sets the theme color, you can use 'style' for specific colors
-    dark=True,  # Assuming a dark theme; set to False for a light theme
-    style={"backgroundColor": "#007BFF"},  # Customize your navbar background color here
+    id='custom-navbar', 
+    color="primary",  
+    dark=True,  
 )
 
+about_text_style = {'display': 'none', 'backgroundColor': '#006AA7', 'color': 'white', 'padding': '10px'}
+
+
+about_text = html.Div(
+    [
+        html.P(
+            [
+                "This dashboard only includes the countries that appear in the dataset of all 5 years. "
+                "The remaining countries were then re-ranked.",
+                html.Br(),
+                "This app illustrates an overview of happiness in countries around the world across 5 years."
+            ],
+            id='about-text',
+            style=about_text_style  
+        )
+    ],
+    className='rounded-bottom'  
+)
 
 app.layout = dbc.Container([
     navbar,
-    #html.Br(),
-    #html.H1("World Happiness Tracker"),
-    #html.Br(),
+    about_text,
     dbc.Row([
         dbc.Col(html.Label(["Country 1"])),
         dbc.Col(html.Label(["Country 2"])),
@@ -126,8 +141,20 @@ app.layout = dbc.Container([
            style={"font-size": "12px"})
 ])
 
-
 # Server side callbacks/reactivity
+@app.callback(
+    Output("about-text", "style"),
+    [Input("open-about", "n_clicks")],
+    [State("about-text", "style")],
+)
+def toggle_about(n, about_style):
+    if n:
+        if about_style and about_style.get('display') == 'none':
+            about_style['display'] = 'block'  
+        else:
+            about_style['display'] = 'none'
+    return about_style
+
 @callback(
     Output("card-happiest", "children"),
     Input("year-select", "value")
