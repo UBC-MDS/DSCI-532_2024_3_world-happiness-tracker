@@ -1,10 +1,10 @@
 import pandas as pd
 
-df_2019 = pd.read_csv("data/raw/2019.csv").assign(Year=2019)
-df_2018 = pd.read_csv("data/raw/2018.csv").assign(Year=2018)
-df_2017 = pd.read_csv("data/raw/2017.csv").assign(Year=2017)
-df_2016 = pd.read_csv("data/raw/2016.csv").assign(Year=2016)
-df_2015 = pd.read_csv("data/raw/2015.csv").assign(Year=2015)
+df_2019 = pd.read_csv("../data/raw/2019.csv").assign(Year=2019)
+df_2018 = pd.read_csv("../data/raw/2018.csv").assign(Year=2018)
+df_2017 = pd.read_csv("../data/raw/2017.csv").assign(Year=2017)
+df_2016 = pd.read_csv("../data/raw/2016.csv").assign(Year=2016)
+df_2015 = pd.read_csv("../data/raw/2015.csv").assign(Year=2015)
 
 df_2019.rename(columns={"Country or region": "Country"}, inplace=True)
 df_2018.rename(columns={"Country or region": "Country"}, inplace=True)
