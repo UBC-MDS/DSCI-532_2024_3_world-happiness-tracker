@@ -86,10 +86,9 @@ about_text = html.Div(
     [
         html.P(
             [
-                "This dashboard only includes the countries that appear in the dataset of all 5 years. "
-                "The remaining countries were then re-ranked.",
+                "This app illustrates an overview of happiness in countries around the world across 5 years.",
                 html.Br(),
-                "This app illustrates an overview of happiness in countries around the world across 5 years."
+                "The dashboard only includes the countries that appear in the dataset of all 5 years. The remaining countries were then re-ranked.",
             ],
             id='about-text',
             style=about_text_style  
