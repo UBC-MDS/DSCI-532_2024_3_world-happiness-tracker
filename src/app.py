@@ -3,10 +3,10 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+from data import happiness_data
 
 
 
-df_all = pd.read_csv("data/processed/app_data.csv")
 factors = ["GDP per capita", "Social support", "Healthy life expectancy",
            "Freedom to make life choices", "Generosity", "Perceptions of corruption"]
 colors = ['#636EFA', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52']
@@ -39,10 +39,10 @@ card_range = dbc.Card(
     style={"border": 0, "height": 200},
     id="card-range"
 )
-country1_dropdown = dcc.Dropdown(options=sorted(list(set(df_all["Country"]))),
+country1_dropdown = dcc.Dropdown(options=sorted(list(set(happiness_data["Country"]))),
                                  placeholder="Select Country 1...",
                                  id="country1-select")
-country2_dropdown = dcc.Dropdown(options=sorted(list(set(df_all["Country"]))),
+country2_dropdown = dcc.Dropdown(options=sorted(list(set(happiness_data["Country"]))),
                                  placeholder="Select Country 2...",
                                  id="country2-select")
 year_slider = dcc.Slider(min=2015, max=2019, value=2019,
@@ -159,7 +159,7 @@ def toggle_about(n, about_style):
     Input("year-select", "value")
 )
 def update_card_happiest(year):
-    df_card = df_all.loc[df_all["Year"] == year]
+    df_card = happiness_data.loc[happiness_data["Year"] == year]
     max_score = df_card["Score"].max()
     happiest_country = df_card.loc[df_card["Score"] == max_score, "Country"].reset_index(drop=True)[0]
 
@@ -178,7 +178,7 @@ def update_card_happiest(year):
     Input("year-select", "value")
 )
 def update_card_happiest(year):
-    df_card = df_all.loc[df_all["Year"] == year]
+    df_card = happiness_data.loc[happiness_data["Year"] == year]
     median_score = df_card["Score"].median()
 
     card_body = dbc.CardBody([
@@ -195,7 +195,7 @@ def update_card_happiest(year):
     Input("year-select", "value")
 )
 def update_card_happiest(year):
-    df_card = df_all.loc[df_all["Year"] == year]
+    df_card = happiness_data.loc[happiness_data["Year"] == year]
     min_score = df_card["Score"].min()
     unhappiest_country = df_card.loc[df_card["Score"] == min_score, "Country"].reset_index(drop=True)[0]
 
@@ -214,7 +214,7 @@ def update_card_happiest(year):
     Input("year-select", "value")
 )
 def update_card_happiest(year):
-    df_card = df_all.loc[df_all["Year"] == year]
+    df_card = happiness_data.loc[happiness_data["Year"] == year]
     max_score = df_card["Score"].max()
     min_score = df_card["Score"].min()
     score_range = round(max_score - min_score, 3)
@@ -234,7 +234,7 @@ def update_card_happiest(year):
     Input("year-select", "value")
 )
 def update_map(country1, year):
-    map_df = df_all.loc[df_all["Year"] == year]
+    map_df = happiness_data.loc[happiness_data["Year"] == year]
     fig = px.choropleth(map_df, locations="Country", color="Score", locationmode="country names",
                         color_continuous_scale=px.colors.sequential.Blues)
     fig.update_layout(margin=dict(l=0, r=80, b=0, t=0))
@@ -250,7 +250,7 @@ def update_map(country1, year):
     Input("year-select", "value")
 )
 def update_table(country1, country2, year):
-    output_df = df_all.loc[df_all["Year"] == year]
+    output_df = happiness_data.loc[happiness_data["Year"] == year]
     top_3 = output_df.head(3)['Country'].tolist()
     bottom_3 = output_df.tail(3)['Country'].tolist()
     if country1 and country2:
@@ -305,7 +305,7 @@ def update_table(country1, country2, year):
 
 def update_linechart(country1, country2, year):
     if (country1 and country2):
-       grouped_df = df_all[df_all["Country"].isin([country1, country2])]
+       grouped_df = happiness_data[happiness_data["Country"].isin([country1, country2])]
        y_point_1 = grouped_df.loc[(grouped_df["Year"] == year) & (grouped_df["Country"] == country1), "Score"]
        y_point_2 = grouped_df.loc[(grouped_df["Year"] == year) & (grouped_df["Country"] == country2), "Score"]
        fig = px.line(grouped_df, x="Year", y="Score", color = 'Country', color_discrete_sequence=colors, markers=True)
@@ -315,7 +315,7 @@ def update_linechart(country1, country2, year):
                                  marker=dict(color='red', size=15)))
     
     elif country1:
-        grouped_df = df_all.loc[df_all["Country"] == country1]
+        grouped_df = happiness_data.loc[happiness_data["Country"] == country1]
         y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
         fig = px.line(grouped_df, x="Year", y="Score", color = 'Country', color_discrete_sequence=colors, markers=True)
         fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
@@ -323,7 +323,7 @@ def update_linechart(country1, country2, year):
         
         
     elif country2:
-        grouped_df = df_all.loc[df_all["Country"] == country2]
+        grouped_df = happiness_data.loc[happiness_data["Country"] == country2]
         y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
         fig = px.line(grouped_df, x="Year", y="Score", color = 'Country', color_discrete_sequence=colors, markers=True)
         fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
@@ -331,7 +331,7 @@ def update_linechart(country1, country2, year):
         
         
     else:
-        grouped_df = df_all[['Score', 'Year']].groupby(['Year']).mean().reset_index()
+        grouped_df = happiness_data[['Score', 'Year']].groupby(['Year']).mean().reset_index()
         fig = px.line(grouped_df, x="Year", y="Score", color_discrete_sequence=colors, markers=True)
         y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
         fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
@@ -340,8 +340,8 @@ def update_linechart(country1, country2, year):
         fig.data[0]['name'] = 'Global average'
 
     
-    last_year = df_all["Year"].max()
-    fig.update_xaxes(range=[df_all["Year"].min() - 0.5, last_year + 0.5])  
+    last_year = happiness_data["Year"].max()
+    fig.update_xaxes(range=[happiness_data["Year"].min() - 0.5, last_year + 0.5])  
 
     
     fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
@@ -365,12 +365,12 @@ def update_linechart(country1, country2, year):
     Input("year-select", "value")
 )
 def update_contributing_factors(country1, country2, year):
-    factors_df = df_all.loc[df_all["Year"] == year]
+    factors_df = happiness_data.loc[happiness_data["Year"] == year]
     
     if (country1 and country2) or (country1) or (country2):
 
         if country1 and country2:
-            factors_df = df_all[df_all["Country"].isin([country1, country2])]
+            factors_df = happiness_data[happiness_data["Country"].isin([country1, country2])]
         elif country1:
             factors_df = factors_df.loc[factors_df["Country"] == country1]
         elif country2:

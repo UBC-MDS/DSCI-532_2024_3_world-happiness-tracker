@@ -67,4 +67,4 @@ df_all[factors] = df_all[factors].div(df_all["sum"], axis=0)
 df_all.drop(columns=["sum"], inplace=True)
 
 
-df_all.to_csv("data/processed/app_data.csv")
+happiness_data = df_all
