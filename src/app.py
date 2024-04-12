@@ -45,16 +45,17 @@ app.layout = dbc.Container([
         dbc.Col(factors_graph)
     ]),
     html.Br(),
-    html.P("*This dashboard only includes the countries that appear in the dataset of all 5 years. The remaining countries were then re-ranked.",
-           style={"font-size": "12px"}),
-    html.P("This app illustrates an overview of happiness in countries around the world across 5 years.",
-           style={"font-size": "12px"}),
-    html.P("Authors: Hongyang Zhang, Jerry Yu, Michelle Hunn, Paolo De Lagrave-Codina",
-           style={"font-size": "12px"}),
-    html.A("Link to GitHub Repository", href="https://github.com/UBC-MDS/DSCI-532_2024_3_world-happiness-tracker",
-           target="_blank", style={"font-size": "12px"}),
-    html.P("Last deployed on April 5, 2023",
-           style={"font-size": "12px"})
+    html.Hr(),
+    dbc.Row([
+        dbc.Col([
+            html.P("Authors: Hongyang Zhang, Jerry Yu, Michelle Hunn, Paolo De Lagrave-Codina",
+                   style={"font-size": "12px"})
+        ]),
+        dbc.Col([
+            html.P("Last deployed on April 5, 2023",
+                   style={"font-size": "12px", "text-align": "right"})
+        ])
+    ])
 ])
 
 
