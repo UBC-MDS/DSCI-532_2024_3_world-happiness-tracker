@@ -1,6 +1,9 @@
 from dash import html, Input, Output, callback
 import dash_bootstrap_components as dbc
 from data import happiness_data
+from utils import COLORS
+
+color = COLORS[0]
 
 
 @callback(
@@ -15,8 +18,8 @@ def update_card_happiest(year):
     card_body = dbc.CardBody([
         html.P(f"Happiest Country ({year})"),
         html.Br(),
-        html.H3(f"{happiest_country}", style={"text-align": "center"}),
-        html.H5(f"({max_score})", style={"text-align": "center", "font-style": "italic"})
+        html.H3(f"{happiest_country}", style={"text-align": "center", 'color': color}),
+        html.H5(f"({max_score})", style={"text-align": "center", "font-style": "italic", 'color': color})
     ])
 
     return card_body
@@ -33,7 +36,7 @@ def update_card_happiest(year):
     card_body = dbc.CardBody([
         html.P(f"Median Happiness Score ({year})"),
         html.Br(style={"line-height": "250%"}),
-        html.H3(f"{median_score}", style={"text-align": "center"}),
+        html.H3(f"{median_score}", style={"text-align": "center", 'color': color}),
     ])
 
     return card_body
@@ -51,8 +54,8 @@ def update_card_happiest(year):
     card_body = dbc.CardBody([
         html.P(f"Unhappiest Country ({year})"),
         html.Br(),
-        html.H3(f"{unhappiest_country}", style={"text-align": "center"}),
-        html.H5(f"({min_score})", style={"text-align": "center", "font-style": "italic"})
+        html.H3(f"{unhappiest_country}", style={"text-align": "center", 'color': color}),
+        html.H5(f"({min_score})", style={"text-align": "center", "font-style": "italic", 'color': color})
     ])
 
     return card_body
@@ -71,7 +74,7 @@ def update_card_happiest(year):
     card_body = dbc.CardBody([
         html.P(f"Score Difference between Happiest and Unhappiest Country ({year})"),
         html.Br(),
-        html.H3(f"{score_range}", style={"text-align": "center"}),
+        html.H3(f"{score_range}", style={"text-align": "center", 'color': color}),
     ])
 
     return card_body

@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 world_map = dbc.Card(children=[html.H5("World Map of Happiness Scores"),
                                dcc.Graph(id="world-map")],
                      body=True)
-rank_table = dbc.Card(children=[html.H5("Country Rankings*"),
+rank_table = dbc.Card(children=[html.H5("Country Rankings"),
                                 html.Br(),
                                 dash_table.DataTable(id="rank-table")],
                       body=True,

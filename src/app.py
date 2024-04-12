@@ -8,7 +8,7 @@ import callbacks
 
 
 # Initialize the app
-app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = Dash(__name__, external_stylesheets=[dbc.themes.MINTY])
 
 server = app.server
 
@@ -57,13 +57,14 @@ app.layout = dbc.Container([
                         style={"font-size": "12px"})
                 ]),
                 dbc.Col([
-                    html.P("Last deployed on April 5, 2023",
+                    html.P("Last deployed on April 12, 2024",
                         style={"font-size": "12px", "text-align": "right"})
                 ])
             ])   
         ])
     ], style={'padding-left': 50,
-              'padding-right': 50})
+              'padding-right': 50,
+              'background-color': '#ececec'})
 ], style={'padding':0}, fluid=True)
 
 
