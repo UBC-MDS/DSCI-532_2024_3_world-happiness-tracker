@@ -15,48 +15,56 @@ server = app.server
 
 # Layout
 app.layout = dbc.Container([
-    navbar,
-    about_text,
     dbc.Row([
-        dbc.Col(html.Label(["Country 1"])),
-        dbc.Col(html.Label(["Country 2"])),
-        dbc.Col(html.Label(["Year"]))
+        navbar,
+        about_text,
     ]),
-    dbc.Row([
-        dbc.Col(country1_dropdown),
-        dbc.Col(country2_dropdown),
-        dbc.Col(year_slider)
-    ]),
-    html.Br(),
-    dbc.Row([
-        dbc.Col(card_happiest),
-        dbc.Col(card_unhappiest),
-        dbc.Col(card_range),
-        dbc.Col(card_median)
-    ]),
-    html.Br(),
-    dbc.Row([
-        dbc.Col(world_map, width=8),
-        dbc.Col(rank_table),
-    ]),
-    html.Br(),
-    dbc.Row([
-        dbc.Col(line_chart),
-        dbc.Col(factors_graph)
-    ]),
-    html.Br(),
-    html.Hr(),
     dbc.Row([
         dbc.Col([
-            html.P("Authors: Hongyang Zhang, Jerry Yu, Michelle Hunn, Paolo De Lagrave-Codina",
-                   style={"font-size": "12px"})
-        ]),
-        dbc.Col([
-            html.P("Last deployed on April 5, 2023",
-                   style={"font-size": "12px", "text-align": "right"})
+            html.Br(),
+            dbc.Row([
+                dbc.Col(html.Label(["Country 1"])),
+                dbc.Col(html.Label(["Country 2"])),
+                dbc.Col(html.Label(["Year"]))
+            ]),
+            dbc.Row([
+                dbc.Col(country1_dropdown),
+                dbc.Col(country2_dropdown),
+                dbc.Col(year_slider)
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(card_happiest),
+                dbc.Col(card_unhappiest),
+                dbc.Col(card_range),
+                dbc.Col(card_median)
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(world_map, width=8),
+                dbc.Col(rank_table),
+            ]),
+            html.Br(),
+            dbc.Row([
+                dbc.Col(line_chart),
+                dbc.Col(factors_graph)
+            ]),
+            html.Br(),
+            html.Hr(),
+            dbc.Row([
+                dbc.Col([
+                    html.P("Authors: Hongyang Zhang, Jerry Yu, Michelle Hunn, Paolo De Lagrave-Codina",
+                        style={"font-size": "12px"})
+                ]),
+                dbc.Col([
+                    html.P("Last deployed on April 5, 2023",
+                        style={"font-size": "12px", "text-align": "right"})
+                ])
+            ])   
         ])
-    ])
-])
+    ], style={'padding-left': 50,
+              'padding-right': 50})
+], style={'padding':0}, fluid=True)
 
 
 # Run the app/dashboard

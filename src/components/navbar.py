@@ -12,9 +12,14 @@ navbar = dbc.NavbarSimple(
     ],
     brand="World Happiness Tracker",
     brand_href="#",
+    brand_style={'font-size' : '40px',
+                 'margin-left': 50},
     id='custom-navbar', 
     color="primary",  
-    dark=True,  
+    dark=True, 
+    style={'border-radius': 5, 
+           'padding-right': 50},
+    fluid=True
 )
 about_text = html.Div(
     [
