@@ -3,7 +3,7 @@
 During the second milestone, our team managed to implement all of the proposed features with some changes (documented in `m2-reflection.md`), so, this week, we focused more on refinements. Some of the specific changes are:
 
 - The key numbers have been rearranged into the order of: happiest, unhappiest, difference of maximum and minimum happiness score, and the median happiness score. This way, the dashboard appears more organized.
-- The year selection widget has now been changed into a style slider, to prevent giving off a false impression that it is a range.
+- The year selection widget now no longer has the line up to the selected year, which previously had made it look like a range instead of a single value.
 - The line chart for the happiness over time now shows which year is being selected as the legend.
 - Charts are now placed inside cards for better visuals.
 - We have also taken inspiration from group 18's Vancouver Airbnb Listings and added a navigation bar for our header. This bar will include some information about the project, the team, and clickable github link for our repository.
