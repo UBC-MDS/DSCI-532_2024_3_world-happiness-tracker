@@ -1,13 +1,11 @@
 # World Happiness Tracker App Dashboard Reflection (Milestone 3)
 
-During the second milestone, our team managed to implement all of the proposed features with some changes (documented in `m2-reflection.md`), so, this week, we focused more on refinements.
+During the second milestone, our team managed to implement all of the proposed features with some changes (documented in `m2-reflection.md`), so, this week, we focused more on refinements. Some of the specific changes are:
 
-One of the biggest problems with our dashboard is that it is aesthetically unappealing. During this milestone, we have decided to overhaul the color scheme (more yellow), font, title formats, and background color. Some more specific changes are:
-
-- The key numbers have been rearranged into the order of: happiest, unhappiest, difference of maximum and minimum happiness score, and the median happiness score.
-- The year selection widget has now been changed into a drop-down menu, to prevent giving off a false impression that it is a range.
+- The key numbers have been rearranged into the order of: happiest, unhappiest, difference of maximum and minimum happiness score, and the median happiness score. This way, the dashboard appears more organized.
+- The year selection widget has now been changed into a style slider, to prevent giving off a false impression that it is a range.
 - The line chart for the happiness over time now shows which year is being selected as the legend.
-- Charts are now placed inside cards.
-- We have also taken inspiration from group 18's Vancouver Airbnb Listings and added a navigation bar for our header. This bar will include some information about the team and clickable github icon for our repository.
+- Charts are now placed inside cards for better visuals.
+- We have also taken inspiration from group 18's Vancouver Airbnb Listings and added a navigation bar for our header. This bar will include some information about the project, the team, and clickable github link for our repository.
 
-Additionally, our source code has now been broken down into multiple files: preprocessing, layout-related functions, and server side. 
+Compared to last week, our dashboard now bears a much more appealing aesthetics, and it meets our expectations functionality-wise. However, there is still plenty of room for improvements. There is currently a huge amount of white space that makes the board appear very empty and lack in substance. Some more nuanced things such as fonts, color, and spacing could be tweaked. The country selector is not very flexible, as it only allows two countries to be selected at once, and there is a drop-down menu for each one of the countries. We can definitely improve it to make it much more flexible, whether it is to be able to select more than 2 countries, or at least make it a single menu so that the user can select multiple countries by checking multiple boxes, which is a much more intuitive way. We are also looking to make the map more interactive. The map is the biggest part of the dashboard and therefore should bear more functionalities than just displaying the happiness score by countries.
