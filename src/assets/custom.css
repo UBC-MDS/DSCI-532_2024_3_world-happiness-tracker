@@ -1,3 +1,7 @@
 #custom-navbar {
-    background-color: #006AA7 !important;
-  }  
+    background-color: #1289ce !important;
+  }
+
+.btn-secondary{
+  background-color: #f2c201;
+}

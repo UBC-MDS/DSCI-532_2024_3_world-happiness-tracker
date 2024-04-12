@@ -1,4 +1,5 @@
 from dash import dcc
+import dash_bootstrap_components as dbc
 from data import happiness_data
 
 
