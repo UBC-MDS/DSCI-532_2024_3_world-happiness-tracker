@@ -52,10 +52,13 @@ conda env create --file environment.yml
 conda activate world-happiness-tracker-env
 ```
 
-3. To run the dashsboard, run:
+3. To run the dashsboard:
+
+    i. First, go into the `src` directory by running `cd src` from the root of the repository.
+    ii. From the `src` directory, run the following command to start the app:
 
 ```bash
-python src/app.py
+python app.py
 ```
 
 4. Click on the http output link in the terminal. The link should look something similar to this: `http://127.0.0.1:8050/`.
