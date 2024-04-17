@@ -46,7 +46,6 @@ def update_table(country1, country2, year):
         style = [
             {
                 "if": {"filter_query": f"{{Country}} = {country1} || {{Country}} = {country2}"},
-                "font-weight": "bold",
                 'backgroundColor': highlight_color,
                 'color': 'white'
             }
@@ -67,7 +66,6 @@ def update_table(country1, country2, year):
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(country_rank)},
-                "font-weight": "bold",
                 'backgroundColor': highlight_color,
                 'color': 'white'
             }
@@ -88,7 +86,6 @@ def update_table(country1, country2, year):
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(country_rank)},
-                "font-weight": "bold",
                 'backgroundColor': highlight_color,
                 'color': 'white'
             }
@@ -98,7 +95,6 @@ def update_table(country1, country2, year):
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
-                "font-weight": "bold",
                 'backgroundColor': highlight_color,
                 'color': 'white'
             }
