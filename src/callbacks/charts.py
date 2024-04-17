@@ -1,8 +1,25 @@
-from dash import Input, Output, callback
+from dash import Dash, dcc, html, callback, Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
 from data import happiness_data
 from utils import FACTORS, COLORS
+
+
+# app = Dash(__name__)
+
+# app.layout = html.Div([
+#     dcc.Graph(
+#         id="world-map",
+#         config={'displayModeBar': False}
+#     ),
+#     dcc.Graph(
+#         id="line-chart",
+#         config={'displayModeBar': False}
+#     ),
+#     dcc.Graph(
+#         id="factors-graph",
+#         config={'displayModeBar': False}),])
+
 
 
 @callback(
@@ -174,3 +191,6 @@ def update_contributing_factors(country1, country2, year):
                       showlegend=False)
 
     return fig
+
+# if __name__ == '__main__':
+#     app.run_server(debug=True)
