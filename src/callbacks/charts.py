@@ -113,7 +113,7 @@ def update_linechart(country1, country2, year):
         y_points = grouped_df.loc[grouped_df["Year"] == year, "Score"]
         fig.add_trace(go.Scatter(x=[year], y=y_points, mode = "markers", name="Selected Year",
                                     marker=dict(color='red', size=15)))
-        fig.update_traces(showlegend=True)
+        fig.update_traces(showlegend=False)
         fig.data[0]['name'] = 'Global average'
 
     
@@ -128,7 +128,7 @@ def update_linechart(country1, country2, year):
         margin=dict(l=20, r=20, t=60, b=20),
         xaxis_title="Year",
         yaxis_title="Happiness Score",
-        legend_title="Legend",
+        showlegend=False,
         hovermode="closest"
     )
 
@@ -160,12 +160,13 @@ def update_contributing_factors(country1, country2, year):
     else:
         factors_df = factors_df[FACTORS].melt(value_vars=FACTORS, var_name="Factors", value_name="Proportion")
         fig = px.histogram(factors_df, x="Proportion", y="Factors", histfunc="avg", color_discrete_sequence=COLORS)
-        fig.update_traces(showlegend=True)
+        fig.update_traces(showlegend=False)
         fig.data[0]['name'] = 'Global average'
 
     fig.update_layout(yaxis={"categoryorder": "mean ascending"},
                       xaxis_title="Proportion of Contribution", 
-                      yaxis_title="Factors",
-                      legend_title="Legend")
+                      yaxis_title="",
+                      showlegend=False)
+                      #legend_title="Legend")
 
     return fig
