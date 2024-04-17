@@ -120,6 +120,9 @@ def update_linechart(country1, country2, year):
     last_year = happiness_data["Year"].max()
     fig.update_xaxes(range=[happiness_data["Year"].min() - 0.5, last_year + 0.5])  
 
+    for trace in fig.data:
+        trace.hovertemplate = '%{data.name}: %{y:.2f}<extra></extra>'
+
     
     fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
 
