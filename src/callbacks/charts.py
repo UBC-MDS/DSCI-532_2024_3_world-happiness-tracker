@@ -30,13 +30,17 @@ def update_table(country1, country2, year):
     output_df = happiness_data.loc[happiness_data["Year"] == year]
     top_3 = output_df.head(3)['Country'].tolist()
     bottom_3 = output_df.tail(3)['Country'].tolist()
+    highlight_color = COLORS[1]
+    
     if country1 and country2:
         countries_list = top_3 + bottom_3 + [country1, country2]
         output_df = output_df[["Overall rank", "Country", "Score"]].query("Country in @countries_list")
         style = [
             {
-                "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
+                "if": {"filter_query": f"{{Country}} = {country1} || {{Country}} = {country2}"},
                 "font-weight": "bold",
+                'backgroundColor': highlight_color,
+                'color': 'white'
             }
         ]
     elif country1:
@@ -47,7 +51,9 @@ def update_table(country1, country2, year):
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(country_rank)},
-                "font-weight": "bold"
+                "font-weight": "bold",
+                'backgroundColor': highlight_color,
+                'color': 'white'
             }
         ]
     elif country2:
@@ -58,7 +64,9 @@ def update_table(country1, country2, year):
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(country_rank)},
-                "font-weight": "bold"
+                "font-weight": "bold",
+                'backgroundColor': highlight_color,
+                'color': 'white'
             }
         ]
     else:
@@ -66,7 +74,9 @@ def update_table(country1, country2, year):
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
-                "font-weight": "bold"
+                "font-weight": "bold",
+                'backgroundColor': highlight_color,
+                'color': 'white'
             }
         ]
 
