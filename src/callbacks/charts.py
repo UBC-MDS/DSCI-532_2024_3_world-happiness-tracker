@@ -3,7 +3,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from data import happiness_data
 from utils import FACTORS, COLORS
-
+from random import sample
 
 @callback(
     Output("world-map", "figure"),
@@ -31,9 +31,17 @@ def update_table(country1, country2, year):
     top_3 = output_df.head(3)['Country'].tolist()
     bottom_3 = output_df.tail(3)['Country'].tolist()
     highlight_color = COLORS[1]
+    maximum_num_rows = 13
     
     if country1 and country2:
         countries_list = top_3 + bottom_3 + [country1, country2]
+        placeholders_num = maximum_num_rows - len(set(countries_list))
+
+        full_countries = output_df['Country'].to_list()
+        filtered = [item for item in full_countries if item not in countries_list]
+
+        countries_list = countries_list + sample(filtered, placeholders_num)
+        
         output_df = output_df[["Overall rank", "Country", "Score"]].query("Country in @countries_list")
         style = [
             {
@@ -45,6 +53,14 @@ def update_table(country1, country2, year):
         ]
     elif country1:
         countries_list = top_3 + bottom_3 + [country1]
+
+        placeholders_num = maximum_num_rows - len(set(countries_list))
+
+        full_countries = output_df['Country'].to_list()
+        filtered = [item for item in full_countries if item not in countries_list]
+
+        countries_list = countries_list + sample(filtered, placeholders_num)
+        
         country_rank = output_df.loc[output_df["Country"] == country1, "Overall rank"].tolist()[0]
         output_df = output_df.query("Country in @countries_list")
         output_df = output_df[["Overall rank", "Country", "Score"]]
@@ -58,6 +74,14 @@ def update_table(country1, country2, year):
         ]
     elif country2:
         countries_list = top_3 + bottom_3 + [country2]
+
+        placeholders_num = maximum_num_rows - len(set(countries_list))
+
+        full_countries = output_df['Country'].to_list()
+        filtered = [item for item in full_countries if item not in countries_list]
+
+        countries_list = countries_list + sample(filtered, placeholders_num)
+        
         country_rank = output_df.loc[output_df["Country"] == country2, "Overall rank"].tolist()[0]
         output_df = output_df.query("Country in @countries_list")
         output_df = output_df[["Overall rank", "Country", "Score"]]
@@ -70,7 +94,7 @@ def update_table(country1, country2, year):
             }
         ]
     else:
-        output_df = output_df[["Overall rank", "Country", "Score"]].head(10)
+        output_df = output_df[["Overall rank", "Country", "Score"]].head(maximum_num_rows)
         style = [
             {
                 "if": {"filter_query": "{{Overall rank}} = {}".format(output_df["Overall rank"].min())},
