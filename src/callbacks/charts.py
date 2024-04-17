@@ -5,23 +5,6 @@ from data import happiness_data
 from utils import FACTORS, COLORS
 
 
-# app = Dash(__name__)
-
-# app.layout = html.Div([
-#     dcc.Graph(
-#         id="world-map",
-#         config={'displayModeBar': False}
-#     ),
-#     dcc.Graph(
-#         id="line-chart",
-#         config={'displayModeBar': False}
-#     ),
-#     dcc.Graph(
-#         id="factors-graph",
-#         config={'displayModeBar': False}),])
-
-
-
 @callback(
     Output("world-map", "figure"),
     Input("country1-select", "value"),
@@ -191,6 +174,3 @@ def update_contributing_factors(country1, country2, year):
                       showlegend=False)
 
     return fig
-
-# if __name__ == '__main__':
-#     app.run_server(debug=True)
