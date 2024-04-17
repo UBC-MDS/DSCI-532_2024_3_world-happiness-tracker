@@ -163,10 +163,11 @@ def update_contributing_factors(country1, country2, year):
         fig.update_traces(showlegend=False)
         fig.data[0]['name'] = 'Global average'
 
+    fig.update_traces(hovertemplate='%{x:.2f}')
+
     fig.update_layout(yaxis={"categoryorder": "mean ascending"},
                       xaxis_title="Proportion of Contribution", 
                       yaxis_title="",
                       showlegend=False)
-                      #legend_title="Legend")
 
     return fig
