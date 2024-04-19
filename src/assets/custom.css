@@ -5,3 +5,11 @@
 .btn-secondary{
   background-color: #f2c201;
 }
+
+.slider-class .rc-slider-rail {
+  background-color: #FFFFFF;
+}
+
+.slider-class .rc-slider-handle {
+  border-color: #1289ce;
+}
