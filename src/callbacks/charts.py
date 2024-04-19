@@ -8,9 +8,10 @@ from random import sample
 @callback(
     Output("world-map", "figure"),
     Input("country1-select", "value"),
+    Input("country2-select", "value"),
     Input("year-select", "value")
 )
-def update_map(country1, year):
+def update_map(country1, country2, year):
     map_df = happiness_data.loc[happiness_data["Year"] == year]
     fig = px.choropleth(map_df, locations="Country", color="Score", locationmode="country names",
                         color_continuous_scale=px.colors.sequential.Blues)
@@ -19,6 +20,22 @@ def update_map(country1, year):
                       modebar_remove=['pan', 'toImage', 'select2d', 'lasso2d']
                       )
     
+    highlights = px.scatter_geo(map_df.loc[map_df['Country'].isin([country1, country2])],
+                         locations="Country", 
+                         color_discrete_sequence=[COLORS[1], COLORS[1]], 
+                         locationmode="country names")
+    
+    highlights.update_traces(
+        marker=dict(size=12, symbol="x", line=dict(width=1)),
+        selector=dict(mode="markers"),
+        hovertemplate=None,
+        hoverinfo= 'skip'
+        )
+
+    highlight_dict = highlights.data[0]
+    highlight_dict['showlegend'] = False
+
+    fig.add_trace(highlight_dict)
     return fig
 
 
