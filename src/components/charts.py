@@ -4,8 +4,9 @@ from utils import COLORS
 
 
 world_map = dbc.Card(children=[html.H5("World Map of Happiness Scores"),
-                               dcc.Graph(id="world-map", config = {'displaylogo': False, 
-                                                                   'scrollZoom':False})],
+                               dcc.Loading(children=[dcc.Graph(id="world-map",
+                                                                config = {'displaylogo': False, 
+                                                                          'scrollZoom':False})])],
                      body=True)
 rank_table = dbc.Card(children=[html.H5("Country Rankings"),
                                 html.Br(),
