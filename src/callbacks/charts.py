@@ -14,10 +14,12 @@ from random import sample
 def update_map(country1, country2, year):
     map_df = happiness_data.loc[happiness_data["Year"] == year]
     fig = px.choropleth(map_df, locations="Country", color="Score", locationmode="country names",
-                        color_continuous_scale=px.colors.sequential.Blues)
+                        color_continuous_scale= px.colors.sequential.Blues
+                        )
     fig.update_traces(hovertemplate='%{location} (%{z:.2f})')
     fig.update_layout(margin=dict(l=0, r=80, b=0, t=0), 
-                      modebar_remove=['pan', 'toImage', 'select2d', 'lasso2d']
+                      modebar_remove=['pan', 'toImage', 'select2d', 'lasso2d'],
+                      geo=dict(landcolor = '#f9f4ec')
                       )
     
     highlights = px.scatter_geo(map_df.loc[map_df['Country'].isin([country1, country2])],
