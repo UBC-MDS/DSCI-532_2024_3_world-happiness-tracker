@@ -2,6 +2,7 @@ from dash import html, Input, Output, callback
 import dash_bootstrap_components as dbc
 from data import happiness_data
 from utils import COLORS
+import functools
 
 color = COLORS[0]
 
@@ -10,6 +11,7 @@ color = COLORS[0]
     Output("card-happiest", "children"),
     Input("year-select", "value")
 )
+@functools.lru_cache()
 def update_card_happiest(year):
     df_card = happiness_data.loc[happiness_data["Year"] == year]
     max_score = df_card["Score"].max()
@@ -29,6 +31,7 @@ def update_card_happiest(year):
     Output("card-median", "children"),
     Input("year-select", "value")
 )
+@functools.lru_cache()
 def update_card_happiest(year):
     df_card = happiness_data.loc[happiness_data["Year"] == year]
     median_score = df_card["Score"].median()
@@ -46,6 +49,7 @@ def update_card_happiest(year):
     Output("card-unhappiest", "children"),
     Input("year-select", "value")
 )
+@functools.lru_cache()
 def update_card_happiest(year):
     df_card = happiness_data.loc[happiness_data["Year"] == year]
     min_score = df_card["Score"].min()
@@ -65,6 +69,7 @@ def update_card_happiest(year):
     Output("card-range", "children"),
     Input("year-select", "value")
 )
+@functools.lru_cache()
 def update_card_happiest(year):
     df_card = happiness_data.loc[happiness_data["Year"] == year]
     max_score = df_card["Score"].max()
