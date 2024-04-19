@@ -14,7 +14,7 @@ def update_map(country1, year):
     map_df = happiness_data.loc[happiness_data["Year"] == year]
     fig = px.choropleth(map_df, locations="Country", color="Score", locationmode="country names",
                         color_continuous_scale=px.colors.sequential.Blues)
-    fig.update_layout(margin=dict(l=0, r=80, b=0, t=0))
+    fig.update_layout(margin=dict(l=0, r=80, b=0, t=0), modebar_remove=['pan', 'toImage', 'select2d', 'lasso2d'])
     
     return fig
 
