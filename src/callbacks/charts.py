@@ -1,4 +1,4 @@
-from dash import Input, Output, callback
+from dash import callback, Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
 from data import happiness_data
@@ -120,6 +120,9 @@ def update_linechart(country1, country2, year):
     last_year = happiness_data["Year"].max()
     fig.update_xaxes(range=[happiness_data["Year"].min() - 0.5, last_year + 0.5])  
 
+    for trace in fig.data:
+        trace.hovertemplate = '%{data.name}: %{y:.2f}<extra></extra>'
+
     
     fig.update_layout(margin=dict(l=20, r=20, t=20, b=20))
 
@@ -128,7 +131,8 @@ def update_linechart(country1, country2, year):
         margin=dict(l=20, r=20, t=60, b=20),
         xaxis_title="Year",
         yaxis_title="Happiness Score",
-        legend_title="Legend",
+        legend_title="",
+        showlegend=True,
         hovermode="closest"
     )
 
@@ -163,9 +167,12 @@ def update_contributing_factors(country1, country2, year):
         fig.update_traces(showlegend=True)
         fig.data[0]['name'] = 'Global average'
 
+    fig.update_traces(hovertemplate='%{x:.2f}')
+
     fig.update_layout(yaxis={"categoryorder": "mean ascending"},
                       xaxis_title="Proportion of Contribution", 
-                      yaxis_title="Factors",
-                      legend_title="Legend")
+                      yaxis_title="",
+                      legend_title="",
+                      showlegend=True)
 
     return fig

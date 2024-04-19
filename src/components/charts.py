@@ -11,8 +11,8 @@ rank_table = dbc.Card(children=[html.H5("Country Rankings"),
                       body=True,
                       style={"height":"100%"})
 line_chart = dbc.Card(children=[html.H5("World Map of Happiness Scores"),
-                                dcc.Graph(id="line-chart")],
+                                dcc.Graph(id="line-chart", config={'displayModeBar': False})],
                       body=True)
 factors_graph = dbc.Card(children=[html.H5("Factors Contributing to Happiness Index"),
-                                   dcc.Graph(id="factors-graph")],
+                                   dcc.Graph(id="factors-graph", config={'displayModeBar': False})],
                          body=True)
