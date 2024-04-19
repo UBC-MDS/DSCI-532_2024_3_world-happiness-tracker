@@ -3,7 +3,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from data import happiness_data
 from utils import FACTORS, COLORS
-from random import sample
+import functools
 
 @callback(
     Output("world-map", "figure"),
@@ -11,6 +11,7 @@ from random import sample
     Input("country2-select", "value"),
     Input("year-select", "value")
 )
+@functools.lru_cache()
 def update_map(country1, country2, year):
     map_df = happiness_data.loc[happiness_data["Year"] == year]
     fig = px.choropleth(map_df, locations="Country", color="Score", locationmode="country names",
@@ -48,6 +49,7 @@ def update_map(country1, country2, year):
     Input("country2-select", "value"),
     Input("year-select", "value")
 )
+@functools.lru_cache()
 def update_table(country1, country2, year):
     output_df = happiness_data.loc[happiness_data["Year"] == year]
     top_3 = output_df.head(3)['Country'].tolist()
@@ -154,7 +156,7 @@ def update_table(country1, country2, year):
     Input("country2-select", "value"),
     Input("year-select", "value")
 )
-
+@functools.lru_cache()
 def update_linechart(country1, country2, year):
     if (country1 and country2):
        grouped_df = happiness_data[happiness_data["Country"].isin([country1, country2])]
@@ -220,6 +222,7 @@ def update_linechart(country1, country2, year):
     Input("country2-select", "value"),
     Input("year-select", "value")
 )
+@functools.lru_cache()
 def update_contributing_factors(country1, country2, year):
     factors_df = happiness_data.loc[happiness_data["Year"] == year]
     
