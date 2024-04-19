@@ -9,7 +9,7 @@ import callbacks
 
 # Initialize the app
 app = Dash(__name__, external_stylesheets=[dbc.themes.MINTY])
-
+app.title = 'World Happiness Tracker'
 server = app.server
 
 
