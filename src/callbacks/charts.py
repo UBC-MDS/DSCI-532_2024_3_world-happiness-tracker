@@ -1,4 +1,4 @@
-from dash import Dash, dcc, html, callback, Input, Output
+from dash import callback, Input, Output
 import plotly.express as px
 import plotly.graph_objects as go
 from data import happiness_data
