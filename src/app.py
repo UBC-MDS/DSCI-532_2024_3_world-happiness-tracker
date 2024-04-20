@@ -57,7 +57,7 @@ app.layout = dbc.Container([
                         style={"font-size": "12px"})
                 ]),
                 dbc.Col([
-                    html.P("Last deployed on April 12, 2024",
+                    html.P("Last deployed on April 19, 2024",
                         style={"font-size": "12px", "text-align": "right"})
                 ])
             ])   
