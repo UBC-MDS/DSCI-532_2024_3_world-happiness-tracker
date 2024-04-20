@@ -5,3 +5,4 @@ plotly==5.19.*
 pandas==2.2.*
 dash-vega-components==0.8.*
 gunicorn==21.2.*
+pyarrow==15.0.*
